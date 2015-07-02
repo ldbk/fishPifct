@@ -1,0 +1,22 @@
+#' Reference table for the vessel type
+#'
+#' Predominant fishing gear as used in the DCF fleet segmentation:
+#' This should be unique for each vessel. 
+#' The dominance criteria shall be used to allocate each vessel to a segment based on the number of fishing days used
+#' with each gear. If a fishing gear is used by more than the sum of all the others (i.e. a vessel spends more than 50 % of
+#' its fishing time using that gear), the vessel shall be allocated to that segment. If not, the vessel shall be allocated to the
+#' following fleet segment:
+#' (a) ‘vessels using Polyvalent active gears’ if it only uses active gears;
+#' (b) ‘vessels using Polyvalent passive gears’ if it only uses passive gears;
+#' (c) ‘vessels using active and passive gears’.
+#'
+#' @format A data frame with 3 variables and 13 observations.
+#' 
+#' @source \url{http://datacollection.jrc.ec.europa.eu/wordef/fleet-segment-dcf}
+#' @examples
+#'   \dontrun{
+#'	print(reftabletype)
+#'   } 
+#'
+#' @name reftabletype 
+NULL
