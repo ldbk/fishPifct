@@ -2,7 +2,7 @@ Package: fishPifct
 Title: fishPi functions
 Version: 0.1
 Description: A set of function used in the fishPi project
-Depends: R (>= 3.2.0),dplyr,stringr,raster,rgeos,RColorBrewer,ggplot2,mapdata,mapproj
+Depends: R (>= 3.0.0),dplyr,stringr,raster,rgeos,RColorBrewer,ggplot2,mapdata,mapproj
 License: MIT +
 LazyData: true
 Date: 2015-06-24
