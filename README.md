@@ -6,8 +6,6 @@ fishPifct is an R package combining some functions used in the fishPi project
 
 #Installation
 
-The package size is about xxxx Mo.
-
 In a R console:
 
 `install.packages("devtools")`
