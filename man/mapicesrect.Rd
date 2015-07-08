@@ -24,7 +24,16 @@ This function map a variable defined on ICES statistical rectangle
 	require(mapdata);require(dplyr);require(ggplot2)
 	load("ICESAreaRects.rdata")
 	datatmp<-data.frame(StatRect=sample(gsub(" ","",ICESAreaRects$StatRect),1000,replace=T),landWt=rnorm(1000,mean=1000,sd=300),month=sample(1:12,1000,replace=T))
-	mapicesrect(datatmp,2,1)
+	pipo<-mapicesrect(datatmp[1:10,],2,1)
+	listid<-unique(ices_areas_df$id)
+	ggplot(ices_areas_df[ices_areas_df$id\%in\%listid[13:65],])+
+		geom_path(aes(long,lat,group=group,coutour="grey"))
+
+		geom_polygon(aes(long,lat,group=group,fill=id,coutour="grey"))#+guides(fill=guide_legend(ncol=3))
+
+	ggplot(ices_areas_df[ices_areas_df$id\%in\%listid[1:12],],aes(x=long,y=lat,group=id))+
+	geom_path()
+
   	}
 }
 \keyword{ICES}
