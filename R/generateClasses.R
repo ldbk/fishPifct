@@ -122,6 +122,36 @@ buildPkFct <- function(fields_def) {
   return(res)
 }
 
+
+#' Find the fishPi class from the excel definition file.
+#'
+#' @param defFilePath path of the excel definition.
+#' @param className name of the resulting class, better to set to "fishPi".
+#' @param classVersion version code of the generate class, something like "2.1", ...
+#' @param additionalSlots additional slots to include not present on the definion excel file. Sea example bellow.
+#' @param additionalSlotsPrototype prototype for additional slots.
+#' @param outputFilePath path of the generated class definition file.
+#' @param eval should the class definition to be evaluated at the end of the generation.
+#' @param xlsLibrary R XLS library to use, could be readxl (default) or xlsx.
+#'
+#' @return file path of the generated file.
+#'
+#' @examples
+#' setwd("/home/norbert/Boulot/DCF/Projets/RDB-SC/")
+#' source("generate_classes.R")
+#' generateClasses(defFilePath="CS - Exchange format - 2.1.xlsx", 
+#'                 className="csPi", 
+#'                 classVersion="2.1", 
+#'                 additionalSlots=list(desc="character", popData="character", design="character"), 
+#'                 additionalSlotsPrototype=list(desc="Commercial Sampling Data format for the fishPi project", popData="Named population data object", design="Design description"), 
+#'                 outputFilePath="csPi_class.R",
+#'                 xlsLibrary="readxl",
+#'                 eval=TRUE)
+#' 
+#' testCsPi <- new(Class="csPi")
+#' testCsPi
+#' @export
+#' 
 generateClasses <- function(defFilePath, 
                             className, 
                             classVersion, 
