@@ -1,4 +1,19 @@
-
+#' Convert from COST CS data structure to fishPi CS structure.
+#'
+#' @param csObj COST CS data object to convert.
+#' @param seObj SE (Sampling Event) table. If NULL a fake SE row is created and propagated.
+#' @param extra Logical, must extra columns (e.g. not in the COST definition) be added to the fishPi CS structure.
+#'
+#' @return fishPi CS object.
+#'
+#' @examples
+#' \dontrun{
+#' data(sole)
+#' pipo <- csDataTocsPi(sole.cs)
+#' head(pipo)
+#' }
+#' @export
+#' @author Laurent Dubroca & Norbert Billet
 csDataTocsPi <- function(csObj, seObj=NULL, extra=FALSE) {
   #------------------------------------------------------------------------
   # csDataTocsPi

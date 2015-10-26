@@ -137,6 +137,7 @@ buildPkFct <- function(fields_def) {
 #' @return file path of the generated file.
 #'
 #' @examples
+#' \dontrun{
 #' setwd("/home/norbert/Boulot/DCF/Projets/RDB-SC/")
 #' source("generate_classes.R")
 #' generateClasses(defFilePath="CS - Exchange format - 2.1.xlsx", 
@@ -150,8 +151,10 @@ buildPkFct <- function(fields_def) {
 #' 
 #' testCsPi <- new(Class="csPi")
 #' testCsPi
+#' }
 #' @export
-#' 
+#' @author Laurent Dubroca & Norbert Billet
+#' @importFrom readxl read_excel
 generateClasses <- function(defFilePath, 
                             className, 
                             classVersion, 
