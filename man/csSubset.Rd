@@ -4,12 +4,14 @@
 \alias{csSubset}
 \title{Subset a fishPi CS object.}
 \usage{
-csSubset(csObj, subset)
+csSubset(csObj, subset, link = FALSE)
 }
 \arguments{
 \item{csObj}{fishPi CS object to subset.}
 
 \item{subset}{expression.}
+
+\item{link:}{boolean TRUE if link to ca table is taken into account (merge of ca use only tr table)}
 }
 \value{
 subseted fishPi CS object.
@@ -21,6 +23,8 @@ Subset a fishPi CS object.
 \examples{
 \dontrun{
 data(sole)
+sole.cs.sub <- csSubset(sole.cs, daysAtSea > 5)
+
 piSole.cs <- csDataTocsPi(sole.cs)
 piSole.cs.sub <- csSubset(piSole.cs, daysAtSea > 5)
 

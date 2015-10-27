@@ -2,12 +2,15 @@
 #'
 #' @param csObj fishPi CS object to subset.
 #' @param subset expression.
+#' @param link: boolean TRUE if link to ca table is taken into account (merge of ca use only tr table)
 #'
 #' @return subseted fishPi CS object.
 #'
 #' @examples
 #' \dontrun{
 #' data(sole)
+#' sole.cs.sub <- csSubset(sole.cs, daysAtSea > 5)
+#'
 #' piSole.cs <- csDataTocsPi(sole.cs)
 #' piSole.cs.sub <- csSubset(piSole.cs, daysAtSea > 5)
 #' 
@@ -15,14 +18,20 @@
 #' @export
 #' @author Laurent Dubroca & Norbert Billet
 #' 
-csSubset <- function(csObj, subset) {
+csSubset <- function(csObj, subset,link=FALSE) {
   
-  message("DEV VERSION: currently don't care about the ca table. NOT VALIDATED.")
+  message("DEV VERSION: currently don't care about the ca table. NOT VALIDATED.\nLink option only use tr table to subset ca.")
   
   if (missing(subset)) {
     message("Missing subset. Original object returned.")
     return(csObj)
   }
+  switch(class(csObj),
+	         csData = funPk<-COSTPk,
+	         csPi= funPk<-piPk,
+		 )
+
+
   
   e <- substitute(subset)
   enclos <- parent.frame()
@@ -34,6 +43,9 @@ csSubset <- function(csObj, subset) {
   }
   
   slots <- c("se", "tr", "hh", "sl", "hl")
+  slots <- slotNames(csObj)
+  slots<-slots[slots%in%c("se","tr","hh","sl","hl")]
+ # print(slots)
   
   namesBySlots <- outer(e.names, slots, Vectorize(function(x, y) exists(x=as.character(x), where=slot(csObj, y), inherits=FALSE), SIMPLIFY=TRUE))
   dimnames(namesBySlots) <- list(as.character(e.names), slots)
@@ -100,7 +112,7 @@ csSubset <- function(csObj, subset) {
       }
       tab <- tab[r, ]
     }
-    tab <- tab[, unique(c(e.names[namesBySlots[, slotName]], piPk(slotName), paste0(slotName,"RowInd")))]
+    tab <- tab[, unique(c(e.names[namesBySlots[, slotName]], funPk(slotName), paste0(slotName,"RowInd")))]
     return(tab)
   }
   
@@ -108,17 +120,29 @@ csSubset <- function(csObj, subset) {
     y <- builbTab(slotName=slots[curr+1], expr=e, enclos=enclos)
     if (curr == 1) {
       x <- builbTab(slotName=slots[curr], expr=e, enclos=enclos)
-      data <- merge(x=x, y=y, all.x=TRUE, by=piPk(slots[curr]))
+      data <- merge(x=x, y=y, all.x=TRUE, by=funPk(slots[curr]))
     } else {
-      data <- merge(x=data, y=y, all.x=TRUE, by=piPk(slots[curr]))
+      data <- merge(x=data, y=y, all.x=TRUE, by=funPk(slots[curr]))
     }
   }
+  #test ca
   
   r <- eval(expr=e, envir=data, enclos=enclos)
   data <- data[r & !is.na(r),]
+
   
   for(currSlot in slots) {
     slot(csObj, currSlot) <- slot(csObj, currSlot)[na.omit(unique(data[, paste0(currSlot,"RowInd")])), ]
+  }
+  if(link){
+      y<-slot(csObj,"ca")
+      y$caRowInd<-seq_len(nrow(y))
+      y <- y[, unique(c(funPk("ca"), "caRowInd"))]
+      #y <- builbTab(slotName="ca", expr=e, enclos=enclos)
+      dataca <- merge(x=data[,funPk("tr")], y=y, all.x=TRUE)#, by=funPk("hh"))
+      r <- eval(expr=e, envir=dataca, enclos=enclos)
+      dataca <- dataca[r & !is.na(r),]
+      slot(csObj, "ca") <- slot(csObj, "ca")[na.omit(unique(dataca[, "caRowInd"])), ]
   }
   
   return(csObj)
