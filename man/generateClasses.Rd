@@ -39,8 +39,8 @@ source("generate_classes.R")
 generateClasses(defFilePath="CS - Exchange format - 2.1.xlsx", 
                 className="csPi", 
                 classVersion="2.1", 
-                additionalSlots=list(desc="character", popData="character", design="character"), 
-                additionalSlotsPrototype=list(desc="Commercial Sampling Data format for the fishPi project", popData="Named population data object", design="Design description"), 
+                additionalSlots=list(desc="character", popData="character", design="character",history="character"), 
+                additionalSlotsPrototype=list(desc="Commercial Sampling Data format for the fishPi project", popData="Named population data object", design="Design description",history="modification history"), 
                 outputFilePath="csPi_class.R",
                 xlsLibrary="readxl",
                 eval=TRUE)
