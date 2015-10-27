@@ -1,4 +1,24 @@
+#' Subset a fishPi CS object.
+#'
+#' @param csObj fishPi CS object to subset.
+#' @param subset expression.
+#'
+#' @return subseted fishPi CS object.
+#'
+#' @examples
+#' \dontrun{
+#' data(sole)
+#' piSole.cs <- csDataTocsPi(sole.cs)
+#' piSole.cs.sub <- csSubset(piSole.cs, daysAtSea > 5)
+#' 
+#' }
+#' @export
+#' @author Laurent Dubroca & Norbert Billet
+#' 
 csSubset <- function(csObj, subset) {
+  
+  message("DEV VERSION: currently don't care about the ca table. NOT VALIDATED.")
+  
   if (missing(subset)) {
     message("Missing subset. Original object returned.")
     return(csObj)
