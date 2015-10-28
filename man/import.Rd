@@ -2,28 +2,36 @@
 % Please edit documentation in R/csPiUtils.R
 \name{import}
 \alias{import}
-\title{Import csPi data from an excel file}
+\title{Import csPi or csData data from an excel file.}
 \usage{
 import(file)
 }
 \arguments{
-\item{file:}{an excel file name containing the csPi table.}
+\item{file:}{an excel file name containing the csPi or csData tables.}
 }
 \value{
-a csPi object
+a csPi or a csData object
 
 }
 \description{
-Import csPi data from an excel file
+Import csPi or csData data from an excel file.
 }
 \examples{
 \dontrun{
+ #test with csData
+ data(sole)
+ export(sole.cs,file="output.xlsx")
+ pipo<-import(file="output.xlsx")
+ head(pipo)
+ #test with csPi
  data(sole)
  pipo<-csDataTocsPi(sole.cs)
- export(pipo,file="output.xslx")
+ export(pipo,file="output.xlsx")
+ pipo<-import(file="output.xlsx")
+ head(pipo)
 }
 }
 \author{
-Laurent Dubroca & Norbert Billet
+Norbert Billet & Laurent Dubroca
 }
 

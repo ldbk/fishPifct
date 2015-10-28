@@ -124,9 +124,9 @@ setMethod("dim", signature("csPi"), function(x){
 #====================================================================
 # 'export' function
 #====================================================================
-#' Export csPi data in excel
+#' Export csPi or csData object in excel.
 #'
-#' @param object: a csPi object.
+#' @param object: a csPi or csData object.
 #' @param file: a file name.
 #'
 #' @return file path of the generated file.
@@ -134,8 +134,10 @@ setMethod("dim", signature("csPi"), function(x){
 #' @examples
 #'\dontrun{
 #'  data(sole)
-#'  pipo<-csDataTocsPi(sole.cs)
-#'  export(pipo,file="output.xslx")
+#'  #csData export
+#'  export(sole.cs,file="output1.xlsx")
+#'  #csPi export
+#'  export(pipo,file="output2.xlsx")
 #' }
 #' @export
 #' @author Laurent Dubroca & Norbert Billet
@@ -143,8 +145,9 @@ setGeneric("export", function(object, file, ...){
 		   	standardGeneric("export")
 				}
 )
+#csPi format
 #' @export
-setMethod("export", signature("csPi"), function(object,file="csPi.xslx",...){
+setMethod("export", signature("csPi"), function(object,file="csPi.xlsx",...){
   wb <- createWorkbook()
   ## Add worksheets
   addWorksheet(wb, "info")
@@ -166,32 +169,61 @@ setMethod("export", signature("csPi"), function(object,file="csPi.xslx",...){
   return(file)
 }
 )
+#COSTcore format
+setMethod("export", signature("csData"), function(object,file="csData.xlsx",...){
+  wb <- createWorkbook()
+  ## Add worksheets
+  addWorksheet(wb, "desc")
+  addWorksheet(wb, "tr")
+  addWorksheet(wb, "hh")
+  addWorksheet(wb, "sl")
+  addWorksheet(wb, "hl")
+  addWorksheet(wb, "ca")
+  writeData(wb, "desc", object@desc, rowNames = TRUE,colNames=FALSE)
+  writeData(wb, "tr", object@tr, startCol = 1, startRow = 1, rowNames = FALSE)
+  writeData(wb, "hh", object@hh, startCol = 1, startRow = 1, rowNames = FALSE)
+  writeData(wb, "sl", object@sl, startCol = 1, startRow = 1, rowNames = FALSE)
+  writeData(wb, "hl", object@hl, startCol = 1, startRow = 1, rowNames = FALSE)
+  writeData(wb, "ca", object@ca, startCol = 1, startRow = 1, rowNames = FALSE)
+  saveWorkbook(wb, file, overwrite = TRUE)
+  return(file)
+}
+)
 #=================================
 
 
 #====================================================================
 # 'import' function
 #====================================================================
-#' Import csPi data from an excel file
+#' Import csPi or csData data from an excel file.
 #'
-#' @param file: an excel file name containing the csPi table.
+#' @param file: an excel file name containing the csPi or csData tables.
 #'
-#' @return a csPi object
+#' @return a csPi or a csData object
 #'
 #' @examples
 #'\dontrun{
+#'  #test with csData
+#'  data(sole)
+#'  export(sole.cs,file="output.xlsx")
+#'  pipo<-import(file="output.xlsx")
+#'  head(pipo)
+#'  #test with csPi
 #'  data(sole)
 #'  pipo<-csDataTocsPi(sole.cs)
-#'  export(pipo,file="output.xslx")
+#'  export(pipo,file="output.xlsx")
+#'  pipo<-import(file="output.xlsx")
+#'  head(pipo)
 #' }
 #' @export
-#' @author Laurent Dubroca & Norbert Billet
+#' @author Norbert Billet & Laurent Dubroca
 import<-function(file){
+#	file<-"/home/moi/output.xlsx"
   #get sheet names
   namessheet<-getSheetNames(file)
-  if(!all(namessheet%in%c("info","se","tr","hh","sl","hl","ca"))){
-	  "Sheet names problem"
-  }else{
+  testcsPi<-all(namessheet%in%c("info","se","tr","hh","sl","hl","ca"))
+  testcsData<-all(namessheet%in%c("desc","tr","hh","sl","hl","ca"))
+  if(testcsPi){
   	## read worksheets
   	info<-readWorkbook(file, "info")
   	se<-readWorkbook(file, "se")
@@ -202,6 +234,26 @@ import<-function(file){
   	ca<-readWorkbook(file, "ca")
   	dat<-csPi(se,tr,hh,sl,hl,ca,info[1,2],info[2,2],info[3,2])
   	return(dat)
+  }
+  if(testcsData){
+	  if(!require(COSTcore)){
+		  print("You need COSTcore package to handle csData object")
+	  }else{
+		require(COSTcore)
+  		## read worksheets
+  		desc<-readWorkbook(file, "desc",colNames=FALSE)
+  		tr<-readWorkbook(file, "tr")
+  		hh<-readWorkbook(file, "hh")
+  		sl<-readWorkbook(file, "sl")
+ 		hl<-readWorkbook(file, "hl")
+  		ca<-readWorkbook(file, "ca")
+  		dat<-csData(tr,hh,sl,hl,ca)
+		dat@desc<-as.character(desc)
+  		return(dat)
+	  }
+  }
+  if(!testcsPi & !testcsData){
+	  print("Sheet names problem")
   }
 }
 #=================================

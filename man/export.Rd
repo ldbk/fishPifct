@@ -2,12 +2,12 @@
 % Please edit documentation in R/csPiUtils.R
 \name{export}
 \alias{export}
-\title{Export csPi data in excel}
+\title{Export csPi or csData object in excel.}
 \usage{
 export(object, file, ...)
 }
 \arguments{
-\item{object:}{a csPi object.}
+\item{object:}{a csPi or csData object.}
 
 \item{file:}{a file name.}
 }
@@ -16,13 +16,15 @@ file path of the generated file.
 
 }
 \description{
-Export csPi data in excel
+Export csPi or csData object in excel.
 }
 \examples{
 \dontrun{
  data(sole)
- pipo<-csDataTocsPi(sole.cs)
- export(pipo,file="output.xslx")
+ #csData export
+ export(sole.cs,file="output1.xlsx")
+ #csPi export
+ export(pipo,file="output2.xlsx")
 }
 }
 \author{
