@@ -15,7 +15,7 @@
 #'   \item  vslType: the DCF vessel type appropriate to the gear type, 
 #'   \item  GearType: Active or passive gear type classification. 
 #' }
-#' @source Alastair Pout a.pout@marlab.ac.uk and Work Package 2.2 core team.
+#' @source Alastair Pout a.pout@@marlab.ac.uk and Work Package 2.2 core team.
 #' @examples
 #'\dontrun{
 #'	# loading the data 

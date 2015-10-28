@@ -9,7 +9,7 @@
 #'   \item spp: the scientific species names, 
 #'   \item code: the alphaID 6 digit code used by WoRMS.  
 #' }
-#' @source Alastair Pout a.pout@marlab.ac.uk and Work Package 2.2 core team.
+#' @source Alastair Pout a.pout@@marlab.ac.uk and Work Package 2.2 core team.
 #' @examples
 #'\dontrun{
 #'	# loading the data 

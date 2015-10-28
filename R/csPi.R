@@ -48,7 +48,7 @@
 #' \item{psuId: }{Primary Sampling Unit Identifier   (type: NA).
 #' This is the concatenation of the actual values from the fields specified by the psuKey. These are unique to the sample, and ideally map to the elements in the population dataset (cpRDB) that can be similarly classified. The psuId would be a replicated field in all the tables in the csRDB structure.}
 #' \item{psuTotal: }{Primary Sampling Unit Total   (type: NA).
-#' This is the total number of possible sampling elements in the population e.g. market days over the year, vessels in the sampling frame. This would generally be obtained from the population data that is explicitly liked to the csRDB sample data. The @$popData slot was envisaged to allow this dataset to be specifically identified.}
+#' This is the total number of possible sampling elements in the population e.g. market days over the year, vessels in the sampling frame. This would generally be obtained from the population data that is explicitly liked to the csRDB sample data. The @@$popData slot was envisaged to allow this dataset to be specifically identified.}
 #' \item{psuSampled: }{Primary Sampling Unit Sampled   (type: NA).
 #' This is the total number of samples obtained from within the sampling stratum and will correspond to the number of unique psuId values.}
 #' \item{psuSampProb: }{Primary Sampling Unit Probability (type: NA).
