@@ -16,6 +16,17 @@ In a R console:
 
 #Description
 
-A short description about the main functions will be available soon.
+This package is dedicated to the ctPi and csPi formats 
+(coded during fishPi and WKRDB
+meetings). 
+Some functions allow the user to export COST object in the csPi format,
+to export and import object in excel, etc...
+These functions are coming from different sources: COSTcore package, 
+Alastair Pout, Norbert Billet and Laurent Dubroca.
+
+Help pages are generated using the roxygen syntax.
+
+Contribute !!!
+
 
 
