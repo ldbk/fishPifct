@@ -3,9 +3,9 @@ Title: fishPi functions
 Version: 0.1
 Description: A set of function used in the fishPi project
 Depends:
-    R (>= 3.0.0),dplyr,stringr,raster,rgeos,RColorBrewer,ggplot2,mapdata,mapproj,openxlsx,COSTcore
+    R (>= 3.0.0),dplyr,stringr,raster,rgeos,RColorBrewer,ggplot2,mapdata,mapproj,openxlsx
 License: MIT +
 LazyData: true
 Date: 2015-06-24
-Author@R: "fishPi [aut,cre] <fishPi@fishPimail.something>"
+Author@R: "fishPi [aut,cre] <laurent.dubroca@gmail.com>"
 RoxygenNote: 4.1.1.9001
