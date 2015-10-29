@@ -1,20 +1,18 @@
 #' Find the fishPi / CS tables to join to get all specified fields.
 #'
 #' @param fields vector of names of required fields.
-#' @param csObj COST / CS object.
+#' @param csObj fishPi / CS object.
 #'
 #' @return Vector of CS tables names to join.
-#'
-#' @seealso \code{\link{COSTaggregate}} to computes summary statistics on a COST object.
 #'
 #' @export
 #'
 #' @examples
-#' findCsJoin(csObject, c("lenCls", "spp", "trpCode"))
-#' findCsJoin(csObject, c("vslLen", "spp"))
+#' getCsJoinTable(csObject, c("lenCls", "spp", "trpCode"))
+#' getCsJoinTable(csObject, c("vslLen", "spp"))
 #'
 #' @author Norbert Billet - IRD
-findCsJoin <- function(csObj, fields) {
+getCsJoinTable <- function(csObj, fields) {
   csTables <- c("se", "tr", "hh", "sl", "hl")
   place <- matrix(data = FALSE, ncol = length(fields), nrow = length(csTables))
   
@@ -72,9 +70,14 @@ findCsJoin <- function(csObj, fields) {
 #' @export
 #'
 #' @examples
-#' findCsJoin(csObject, c("lenCls", "spp", "trpCode"))
-#' findCsJoin(csObject, c("vslLen", "spp"))
-#'
+#' \dontrun{
+#' data(sole)
+#' sole.cs.pi <- csDataTocsPi(sole.cs)
+#' aggByFoCatEu5 <- csAggregate(csObj=sole.cs.pi, x=list(lenNum="lenNum"), by=list(foCatEu5="foCatEu5", lenCls="lenCls"), sum, na.rm=TRUE)
+#' 
+#' library(ggplot2)
+#' ggplot(data=aggByFoCatEu5) + geom_bar(mapping=aes(x=lenCls, y=lenNum), stat="identity") + facet_wrap(~foCatEu5, ncol=1, scales="free_y") + theme_bw()
+#' }
 #' @author Norbert Billet - IRD
 csAggregate <- function(csObj,
                           x,
@@ -106,7 +109,7 @@ csAggregate <- function(csObj,
   }
   
   fields <- c(x, by)
-  csTables <- findCsJoin(csObj, fields)
+  csTables <- getCsJoinTable(csObj, fields)
   
   namesBySlots <- outer(c(x, by), csTables, Vectorize(function(x, y) exists(x=as.character(x), where=slot(csObj, y), inherits=FALSE), SIMPLIFY=TRUE))
   

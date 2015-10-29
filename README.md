@@ -6,6 +6,8 @@ fishPifct is an R package combining some functions used in the fishPi project
 
 #Installation
 
+Windows users: you have to install this before: https://cran.r-project.org/bin/windows/Rtools/
+
 In a R console:
 
 `install.packages("devtools")`
