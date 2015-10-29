@@ -8,6 +8,7 @@ readDefinition <- function(defFilePath, xlsLibrary="readxl") {
     if(! require(xlsx)) {
       stop("You have to install the \"xlsx\" library")
     }  
+    require(xlsx)
     SE.def <- read.xlsx(defFilePath, sheetName = "SE", stringsAsFactors=FALSE)
     TR.def <- read.xlsx(defFilePath, sheetName = "TR", stringsAsFactors=FALSE)
     HH.def <- read.xlsx(defFilePath, sheetName = "HH", stringsAsFactors=FALSE)
@@ -20,6 +21,8 @@ readDefinition <- function(defFilePath, xlsLibrary="readxl") {
     if(! require(readxl)) {
       stop("You have to install the \"readxl\" library")
     }  
+    require(readxl)
+    SE.def <- read.xlsx(defFilePath, sheetName = "SE", stringsAsFactors=FALSE)
     SE.def <- read_excel(defFilePath, sheet = "SE")
     TR.def <- read_excel(defFilePath, sheet = "TR")
     HH.def <- read_excel(defFilePath, sheet = "HH")
@@ -155,25 +158,6 @@ generateHelp<-function(file){
   	#writeLines(res, "pipo.txt")
     }
 }
-
-
-
-#' Find the fishPi class from the excel definition file.
-#'
-#' @param defFilePath path of the excel definition.
-#' @param className name of the resulting class, better to set to "fishPi".
-#' @param classVersion version code of the generate class, something like "2.1", ...
-#' @param additionalSlots additional slots to include not present on the definion excel file. Sea example bellow.
-#' @param additionalSlotsPrototype prototype for additional slots.
-#' @param outputFilePath path of the generated class definition file.
-#' @param eval should the class definition to be evaluated at the end of the generation.
-#' @param xlsLibrary R XLS library to use, could be readxl (default) or xlsx.
-#'
-#' @return file path of the generated file.
-#'
-#' @examples
-
-
 #' Find the fishPi class from the excel definition file.
 #'
 #' @param defFilePath path of the excel definition.

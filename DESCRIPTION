@@ -3,9 +3,9 @@ Title: fishPi functions
 Version: 0.1
 Description: A set of function used in the fishPi project
 Depends:
-    R (>= 3.0.0),dplyr,openxlsx
+    R (>= 3.0.0),dplyr,openxlsx,readxl
 License: MIT +
 LazyData: true
 Date: 2015-06-24
-Author@R: person("fishPi",role= c("aut","cre"),email="laurent.dubroca@gmail.com")
+Authors@R: person("fishPi",role= c("aut","cre"),email="laurent.dubroca@gmail.com")
 RoxygenNote: 4.1.1.9001

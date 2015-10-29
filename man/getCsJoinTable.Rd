@@ -2,12 +2,12 @@
 % Please edit documentation in R/csAggregate.R
 \name{getCsJoinTable}
 \alias{getCsJoinTable}
-\title{Find the fishPi / CS tables to join to get all specified fields.}
+\title{Find the fishPi or CS tables to join to get all specified fields.}
 \usage{
 getCsJoinTable(csObj, fields)
 }
 \arguments{
-\item{csObj}{fishPi / CS object.}
+\item{csObj}{fishPi or CS object.}
 
 \item{fields}{vector of names of required fields.}
 }
@@ -16,7 +16,7 @@ Vector of CS tables names to join.
 
 }
 \description{
-Find the fishPi / CS tables to join to get all specified fields.
+Find the fishPi or CS tables to join to get all specified fields.
 }
 \examples{
 getCsJoinTable(csObject, c("lenCls", "spp", "trpCode"))
@@ -25,5 +25,6 @@ getCsJoinTable(csObject, c("vslLen", "spp"))
 }
 \author{
 Norbert Billet - IRD
+
 }
 

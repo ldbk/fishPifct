@@ -36,5 +36,6 @@ ggplot(data=aggByFoCatEu5) + geom_bar(mapping=aes(x=lenCls, y=lenNum), stat="ide
 }
 \author{
 Norbert Billet - IRD
+
 }
 

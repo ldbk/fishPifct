@@ -24,27 +24,8 @@ generateClasses(defFilePath, className, classVersion, additionalSlots = NULL,
 \item{eval}{should the class definition to be evaluated at the end of the generation.}
 
 \item{xlsLibrary}{R XLS library to use, could be readxl (default) or xlsx.}
-
-\item{defFilePath}{path of the excel definition.}
-
-\item{className}{name of the resulting class, better to set to "fishPi".}
-
-\item{classVersion}{version code of the generate class, something like "2.1", ...}
-
-\item{additionalSlots}{additional slots to include not present on the definion excel file. Sea example bellow.}
-
-\item{additionalSlotsPrototype}{prototype for additional slots.}
-
-\item{outputFilePath}{path of the generated class definition file.}
-
-\item{eval}{should the class definition to be evaluated at the end of the generation.}
-
-\item{xlsLibrary}{R XLS library to use, could be readxl (default) or xlsx.}
 }
 \value{
-file path of the generated file.
-
-
 file path of the generated file.
 
 }
@@ -52,8 +33,21 @@ file path of the generated file.
 Find the fishPi class from the excel definition file.
 }
 \examples{
-Find the fishPi class from the excel definition file.
+\dontrun{
+setwd("/home/norbert/Boulot/DCF/Projets/RDB-SC/")
+source("generate_classes.R")
+generateClasses(defFilePath="CS - Exchange format - 2.1.xlsx", 
+                className="csPi", 
+                classVersion="2.1", 
+                additionalSlots=list(desc="character", popData="character", design="character",history="character"), 
+                additionalSlotsPrototype=list(desc="Commercial Sampling Data format for the fishPi project", popData="Named population data object", design="Design description",history="modification history"), 
+                outputFilePath="csPi_class.R",
+                xlsLibrary="readxl",
+                eval=TRUE)
 
+testCsPi <- new(Class="csPi")
+testCsPi
+}
 }
 \author{
 Laurent Dubroca & Norbert Billet

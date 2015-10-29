@@ -1,17 +1,17 @@
-#' Find the fishPi / CS tables to join to get all specified fields.
+#' Find the fishPi or CS tables to join to get all specified fields.
 #'
 #' @param fields vector of names of required fields.
-#' @param csObj fishPi / CS object.
+#' @param csObj fishPi or CS object.
 #'
 #' @return Vector of CS tables names to join.
-#'
-#' @export
 #'
 #' @examples
 #' getCsJoinTable(csObject, c("lenCls", "spp", "trpCode"))
 #' getCsJoinTable(csObject, c("vslLen", "spp"))
 #'
 #' @author Norbert Billet - IRD
+#'
+#' @export
 getCsJoinTable <- function(csObj, fields) {
   csTables <- c("se", "tr", "hh", "sl", "hl")
   place <- matrix(data = FALSE, ncol = length(fields), nrow = length(csTables))
@@ -67,8 +67,6 @@ getCsJoinTable <- function(csObj, fields) {
 #'
 #' @return A data frame with columns corresponding to the grouping variables in by followed by aggregated columns from x.
 #'
-#' @export
-#'
 #' @examples
 #' \dontrun{
 #' data(sole)
@@ -79,6 +77,8 @@ getCsJoinTable <- function(csObj, fields) {
 #' ggplot(data=aggByFoCatEu5) + geom_bar(mapping=aes(x=lenCls, y=lenNum), stat="identity") + facet_wrap(~foCatEu5, ncol=1, scales="free_y") + theme_bw()
 #' }
 #' @author Norbert Billet - IRD
+#'
+#' @export
 csAggregate <- function(csObj,
                           x,
                           by,
