@@ -9,11 +9,10 @@
 #' @examples
 #' \dontrun{
 #' data(sole)
-#' sole.cs.sub <- csSubset(sole.cs, daysAtSea > 5)
-#'
-#' piSole.cs <- csDataTocsPi(sole.cs)
-#' piSole.cs.sub <- csSubset(piSole.cs, daysAtSea > 5)
-#' 
+#' library(ggplot2)
+#' sole.cs.pi <- csDataTocsPi(sole.cs) 
+#' aggByFoCatEu5 <- csAggregate(csObj=sole.cs.pi, x=list(lenNum="lenNum"), by=list(foCatEu5="foCatEu5", lenCls="lenCls"), sum, na.rm=TRUE)
+#' ggplot(data=aggByFoCatEu5) + geom_bar(mapping=aes(x=lenCls, y=lenNum), stat="identity") + facet_wrap(~foCatEu5, ncol=1, scales="free_y") + theme_bw()
 #' }
 #' @export
 #' @author Laurent Dubroca & Norbert Billet
