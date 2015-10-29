@@ -6,8 +6,10 @@
 #' @return Vector of CS tables names to join.
 #'
 #' @examples
+#'\dontrun{
 #' getCsJoinTable(csObject, c("lenCls", "spp", "trpCode"))
 #' getCsJoinTable(csObject, c("vslLen", "spp"))
+#'}
 #'
 #' @author Norbert Billet - IRD
 #'

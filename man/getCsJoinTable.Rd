@@ -19,8 +19,10 @@ Vector of CS tables names to join.
 Find the fishPi or CS tables to join to get all specified fields.
 }
 \examples{
+\dontrun{
 getCsJoinTable(csObject, c("lenCls", "spp", "trpCode"))
 getCsJoinTable(csObject, c("vslLen", "spp"))
+}
 
 }
 \author{
