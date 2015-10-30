@@ -16,6 +16,7 @@ Please read carefully the error messages R gives to you (the way to fix these er
 The average procedure to fix them should be something like:
 
 `install.packages("installr")
+
 `installr::installr("Rtools")
 
 During the installtion, tick the PATH modification option.
