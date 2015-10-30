@@ -15,9 +15,9 @@ There are some issues with the openxlsx package installation (needed to import a
 Please read carefully the error messages R gives to you (the way to fix these errors are explained to you in these messages).
 The average procedure to fix them should be something like:
 
-`install.packages("installr")
+`install.packages("installr")`
 
-`installr::installr("Rtools")
+`installr::installr("Rtools")`
 
 During the installtion, tick the PATH modification option.
 Restart your computer.
