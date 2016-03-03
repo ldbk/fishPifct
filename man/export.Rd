@@ -2,32 +2,42 @@
 % Please edit documentation in R/csPiUtils.R
 \name{export}
 \alias{export}
-\title{Export csPi or csData object in excel.}
+\title{Export csPi or csData object in excel, csv or SQLite files.}
 \usage{
-export(object, file, ...)
+export(object, file, type, ...)
 }
 \arguments{
 \item{object:}{a csPi or csData object.}
 
 \item{file:}{a file name.}
+
+\item{type:}{"csv" or "xlsx" or "SQLite"}
 }
 \value{
-file path of the generated file.
+file path of the generated file(s).
 
 }
 \description{
-Export csPi or csData object in excel.
+Export csPi or csData object in excel, csv or SQLite files.
 }
 \examples{
 \dontrun{
  data(sole)
- #csData export
- export(sole.cs,file="output1.xlsx")
- #csPi export
- export(pipo,file="output2.xlsx")
+ #xlsx export
+ export(sole.cs,file="sole.xlsx")
+ #csv export
+ export(sole.cs,file="sole.csv")
+ #SQLite export
+ export(sole.cs,file="sole.sqlite3")
 }
+
 }
 \author{
-Laurent Dubroca & Norbert Billet
+Norrent Bibroca & Laurbert Dullet 
+
+}
+\seealso{
+\code{link{exportxlsx}}, \code{link{exportcsv}} and \code{link{exportdb}} 
+
 }
 
