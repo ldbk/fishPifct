@@ -10,6 +10,16 @@ setGeneric("csPi",
              standardGeneric("csPi")
            }
 )
+#' @export
+setMethod("csPi", 
+          signature("missing", "missing", "missing", "missing", "missing", "missing"), 
+          function(se, tr, hh, sl, hl, ca, 
+                   desc="Commercial Sampling Data", popData="Named cpRDB object", design="Design description", 
+                   check=FALSE, ...) {
+		  obj<-new("csPi")
+		  return(obj)
+	  }
+	  )
 
 #' @export
 setMethod("csPi", 
@@ -428,10 +438,14 @@ importcsv<-function(filelist){
 	}
 	return(pipo)
 }
+#a test
+options(defaul.stringsAsFactors=FALSE)
 
 #GO
 testfct<-function(){
 library(fishPifct)
+aa<-new("csPi")
+str(aa)
 data(sole)
 pipo <- csDataTocsPi(sole.cs)
 #test xlsx
@@ -441,6 +455,10 @@ filelist<-export(pipo,filename="output2.xlsx",type="xlsx")
 #testcsv
 filelist<-export(sole.cs,file="output.csv",type="csv")
 tt<-importcsv(filelist$filename)
+setClass(Class="test",slots=list(test1="character",test2="data.frame"),
+				 prototype=list(test1="pipo",
+						test2=data.frame(aa=numeric(),bb=character())))
+
 
 
 testcsPi<-all(namessheet%in%c("info","se","tr","hh","sl","hl","ca"))

@@ -500,7 +500,7 @@ setClass(
 			ssuId=character(), 
 			ssuTotal=character(), 
 			ssuSampled=character(), 
-			ssuSampProb=character(),stringsAsFactors=F
+			ssuSampProb=character()
 		), 
 		hh=data.frame(
 			recType=character(), 
@@ -551,7 +551,7 @@ setClass(
 			domain2=character(), 
 			foTotal=character(), 
 			foSampled=character(), 
-			foSampProb=character(),stringsAsFactors=F
+			foSampProb=character()
 		), 
 		sl=data.frame(
 			recType=character(), 
@@ -582,7 +582,7 @@ setClass(
 			lenCode=character(), 
 			unitTotal=character(), 
 			unitSampled=character(), 
-			unitSampProb=character(),stringsAsFactors=F
+			unitSampProb=character()
 		), 
 		hl=data.frame(
 			recType=character(), 
@@ -609,7 +609,7 @@ setClass(
 			convFacLen=character(), 
 			fishTotal=character(), 
 			fishSampled=character(), 
-			fishSampProb=character(),stringsAsFactors=F
+			fishSampProb=character()
 		), 
 		ca=data.frame(
 			recType=character(), 
@@ -650,7 +650,7 @@ setClass(
 			indWt=double(), 
 			matMeth=character(), 
 			matScale=character(), 
-			matStage=character(),stringsAsFactors=F
+			matStage=character()
 		)
 	)
 )
