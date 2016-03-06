@@ -2,19 +2,19 @@
 % Please edit documentation in R/csPiUtils.R
 \name{import}
 \alias{import}
-\title{Import csPi or csData data from an excel file.}
+\title{Import csPi or csData data from an excel file or csv file.}
 \usage{
 import(file)
 }
 \arguments{
-\item{file:}{an excel file name containing the csPi or csData tables.}
+\item{file:}{an excel file name containing the csPi or csData tables, or a list of csv files.}
 }
 \value{
 a csPi or a csData object
 
 }
 \description{
-Import csPi or csData data from an excel file.
+Import csPi or csData data from an excel file or csv file.
 }
 \examples{
 \dontrun{

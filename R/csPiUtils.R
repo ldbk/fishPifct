@@ -148,26 +148,44 @@ setMethod("dim", signature("csPi"), function(x){
 #' @author Norrent Bibroca & Laurbert Dullet 
 #'
 #' @export
-setGeneric("export", function(object, file, type,...){
+setGeneric("export", function(object, filename, type,...){
 		   	standardGeneric("export")
 				}
 )
 #' @export
-setMethod("export", signature("csPi","csData"), function(object,file="output.xlsx",type="xlsx",...){
- if(!(type%in%c("csv","xlsx","SQLite"))){type<-"notype"}
- switch(type,
-	csv={filename<-exportcsv(object,file)
-	},
-        xlsx={filename<-exportxslx(object,file)	
-	},
-	SQLite={filename<-exportdb(object,file)
- 	},
-	notype={print("wrong output type, please use 'xlsx', 'csv' or 'SQLite'")
+setMethod("export", signature(object="csPi",filename="character",type="character"), 
+	  function(object,filename="output.xlsx",type="xlsx",...){
+ 		if(!(type%in%c("csv","xlsx","SQLite"))){type<-"notype"}
+ 			switch(type,
+				csv={filename<-exportcsv(object,filename)
+				},
+        			xlsx={filename<-exportxlsx(object,filename)	
+				},
+				SQLite={filename<-exportdb(object,filename)
+ 				},
+				notype={print("wrong output type, please use 'xlsx', 'csv' or 'SQLite'")
+				}
+			)
+  		return(filename)
 	}
-	)
-  	return(filename)
-}
 )
+setMethod("export", signature(object="csData",filename="character",type="character"), 
+	  function(object,filename="output.xlsx",type="xlsx",...){
+ 		if(!(type%in%c("csv","xlsx","SQLite"))){type<-"notype"}
+ 			switch(type,
+				csv={filename<-exportcsv(object,filename)
+				},
+        			xlsx={filename<-exportxlsx(object,filename)	
+				},
+				SQLite={filename<-exportdb(object,filename)
+ 				},
+				notype={print("wrong output type, please use 'xlsx', 'csv' or 'SQLite'");filename<-""
+				}
+			)
+  		return(filename)
+	}
+)
+
 #====================================================================
 # 'exportxlsx' function
 #====================================================================
@@ -189,9 +207,9 @@ setMethod("export", signature("csPi","csData"), function(object,file="output.xls
 #' @export
 exportxlsx<-function(object,filename){
 	objslot<-slotNames(object)
-	listmainslot<-
 	if(is.null(objslot)){
 		print("Object has no slot, check your object. Nothing to export.")
+		filename<-""
 	}else{
 		#generate wb
   		wb <- createWorkbook()
@@ -246,7 +264,7 @@ exportcsv<-function(object,filename){
 			listfilename<-rbind(listfilename,filenameslot)
 			slottmp<-slot(object,objslot[i])
 			if(class(slottmp)=="character"){slottmp<-data.frame(slottmp);names(slottmp)<-as.character(objslot[i])}
-			con<-file(filenameslot,"at")
+			con<-file(filenameslot,"wt")
 			write.csv(slottmp,con,row.names=F)
 			close(con)
 		}
@@ -296,53 +314,12 @@ exportdb<- function(object,file) {
 	return(file)
 	}
 }
-
-#test area
-#library(fishPifct)
-#data(sole.cs)
-### Not run: 
-#data(sole)
-#pipo <- csDataTocsPi(sole.cs)
-#head(pipo)
-#object<-pipo
-#filename<-"test.csv"
-#exportxlsx(sole.cs,"test.xlsx")
-#exportxlsx(pipo,"test.xlsx")
-#exportcsv(pipo,"test2")
-#exportcsv(pipo,"te.st2.adada")
-#exportdb(sole.cs,"pipo.sqlite3")
-
-
-
-#COSTcore format
-setMethod("export", signature("csData"), function(object,file="csData.xlsx",...){
-  wb <- createWorkbook()
-  ## Add worksheets
-  addWorksheet(wb, "desc")
-  addWorksheet(wb, "tr")
-  addWorksheet(wb, "hh")
-  addWorksheet(wb, "sl")
-  addWorksheet(wb, "hl")
-  addWorksheet(wb, "ca")
-  writeData(wb, "desc", object@desc, rowNames = TRUE,colNames=FALSE)
-  writeData(wb, "tr", object@tr, startCol = 1, startRow = 1, rowNames = FALSE)
-  writeData(wb, "hh", object@hh, startCol = 1, startRow = 1, rowNames = FALSE)
-  writeData(wb, "sl", object@sl, startCol = 1, startRow = 1, rowNames = FALSE)
-  writeData(wb, "hl", object@hl, startCol = 1, startRow = 1, rowNames = FALSE)
-  writeData(wb, "ca", object@ca, startCol = 1, startRow = 1, rowNames = FALSE)
-  saveWorkbook(wb, file, overwrite = TRUE)
-  return(file)
-}
-)
-#=================================
-
-
 #====================================================================
 # 'import' function
 #====================================================================
-#' Import csPi or csData data from an excel file.
+#' Import csPi or csData data from an excel file or csv file.
 #'
-#' @param file: an excel file name containing the csPi or csData tables.
+#' @param file: an excel file name containing the csPi or csData tables, or a list of csv files.
 #'
 #' @return a csPi or a csData object
 #'
@@ -401,4 +378,90 @@ import<-function(file){
 	  print("Sheet names problem")
   }
 }
-#=================================
+
+#====================================================================
+# 'importxlsx' function
+#====================================================================
+#' Import an excel file into a list 
+#' Excel's sheets name defined list name slot
+#'
+#' @param filename: a file name.
+#'
+#' @return a list
+#'
+#' @author Norrent Bibroca & Laurbert Dullet 
+#'
+#' @export
+importxlsx<-function(filename){
+	#get the sheet name
+	namessheet<-getSheetNames(filename)
+	pipo<-list()
+	for(id in namessheet){
+		pipo[[id]]<-readWorkbook(filename, id)
+	}
+	return(pipo)
+}
+#====================================================================
+# 'importcsv' function
+#====================================================================
+#' Import a list of csv file into a list 
+#'
+#' @param filelist: a character vector listing the files
+#'
+#' @return a list containing the object read sequentially
+#'
+#' @author Norrent Bibroca & Laurbert Dullet 
+#'
+#' @examples
+#'\dontrun{
+#'  data(sole)
+#'  filelist<-export(sole.cs,file="output.csv",type="csv")
+#'  pipo<-importcsv(file=filelist)
+#'  str(pipoi,1)
+#' }
+#'
+#' @export
+importcsv<-function(filelist){
+	pipo<-list()
+	for(id in filelist){
+		pipo[[id]]<-read.csv(id,stringsAsFactors=F)
+	}
+	return(pipo)
+}
+
+#GO
+pipo0<-function(){
+library(fishPifct)
+data(sole)
+pipo <- csDataTocsPi(sole.cs)
+#test xlsx
+filelist<-export(sole.cs,filename="output.xlsx",type="xlsx")
+tt<-importxlsx(filelist)
+filelist<-export(pipo,filename="output2.xlsx",type="xlsx")
+#testcsv
+filelist<-export(sole.cs,file="output.csv",type="csv")
+tt<-importcsv(filelist$filename)
+
+
+testcsPi<-all(namessheet%in%c("info","se","tr","hh","sl","hl","ca"))
+
+	objslot<-slotNames(object)
+	listmainslot<-
+	if(is.null(objslot)){
+		print("Object has no slot, check your object. Nothing to export.")
+	}else{
+		#generate wb
+  		wb <- createWorkbook()
+  		## Add worksheets and data
+		for(i in 1:length(objslot)){
+			addWorksheet(wb,objslot[i])
+			slottmp<-slot(object,objslot[i])
+			if(class(slottmp)=="character"){slottmp<-data.frame(slottmp);names(slottmp)<-as.character(objslot[i])}
+  			#eval(parse(text=paste0("writeData(wb,'",objslot[i],"',object@",objslot[i],")")))
+  			writeData(wb,objslot[i],slottmp)
+		}
+		#saving the workbook
+  		saveWorkbook(wb, filename, overwrite = TRUE)
+	}
+	return(filename)
+}

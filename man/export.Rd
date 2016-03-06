@@ -4,7 +4,7 @@
 \alias{export}
 \title{Export csPi or csData object in excel, csv or SQLite files.}
 \usage{
-export(object, file, type, ...)
+export(object, filename, type, ...)
 }
 \arguments{
 \item{object:}{a csPi or csData object.}
