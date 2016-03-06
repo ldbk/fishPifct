@@ -430,7 +430,7 @@ importcsv<-function(filelist){
 }
 
 #GO
-pipo0<-function(){
+testfct<-function(){
 library(fishPifct)
 data(sole)
 pipo <- csDataTocsPi(sole.cs)
