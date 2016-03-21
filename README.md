@@ -3,6 +3,7 @@ fishPifct
 
 fishPifct is an R package combining some functions used in the fishPi project
 ([fishPi](<http://fishPi/link/>)).
+Some of these functions are coming from the SDEFQuality package from Norbert Billet ([SDEFQuality](<https://git.outils-is.ird.fr/billet/SDEFQuality>)).
 
 #Installation
 
