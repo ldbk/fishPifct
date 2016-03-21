@@ -439,13 +439,13 @@ importcsv<-function(filelist){
 	return(pipo)
 }
 #a test
-options(defaul.stringsAsFactors=FALSE)
+#options(defaul.stringsAsFactors=FALSE)
 
 #GO
 testfct<-function(){
 library(fishPifct)
 aa<-new("csPi")
-str(aa)
+str(aa@se)
 data(sole)
 pipo <- csDataTocsPi(sole.cs)
 #test xlsx

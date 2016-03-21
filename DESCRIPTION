@@ -7,5 +7,5 @@ Depends:
 License: MIT +
 LazyData: true
 Date: 2015-06-24
-Authors@R: person("fishPi",role= c("aut","cre"),email="laurent.dubroca@gmail.com")
+Authors@R: c(person("Laurent Dubroca",role= c("aut","cre"),email="laurent.dubroca@gmail.com"), person("Norbert Billet",role= c("aut"),email="norbert.billet@ird.fr"))
 RoxygenNote: 4.1.1.9001
