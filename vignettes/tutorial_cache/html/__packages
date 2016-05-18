@@ -1,0 +1,17 @@
+base
+methods
+colorout
+setwidth
+vimcom
+datasets
+utils
+grDevices
+graphics
+stats
+devtools
+roxygen2
+dplyr
+openxlsx
+readxl
+rmarkdown
+fishPifct
