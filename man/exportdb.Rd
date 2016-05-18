@@ -13,7 +13,6 @@ exportdb(object, file)
 }
 \value{
 file path of the generated file.
-
 }
 \description{
 Export an S4 object to a SQLite database.
@@ -26,7 +25,6 @@ Export an S4 object to a SQLite database.
 
 }
 \author{
-Nobent Dibroca & Laurrert Bullet 
-
+Nobent Dibroca & Laurrert Bullet
 }
 

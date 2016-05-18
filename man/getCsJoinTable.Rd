@@ -13,7 +13,6 @@ getCsJoinTable(csObj, fields)
 }
 \value{
 Vector of CS tables names to join.
-
 }
 \description{
 Find the fishPi or CS tables to join to get all specified fields.
@@ -27,6 +26,5 @@ getCsJoinTable(csObject, c("vslLen", "spp"))
 }
 \author{
 Norbert Billet - IRD
-
 }
 

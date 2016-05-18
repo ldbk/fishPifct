@@ -3,9 +3,11 @@ Title: fishPi functions
 Version: 0.1
 Description: A set of function used in the fishPi project
 Depends:
-    R (>= 3.0.0),dplyr,openxlsx,readxl
+    R (>= 3.0.0),dplyr,openxlsx,readxl,rmarkdown
 License: MIT +
 LazyData: true
 Date: 2015-06-24
 Authors@R: c(person("Laurent Dubroca",role= c("aut","cre"),email="laurent.dubroca@gmail.com"), person("Norbert Billet",role= c("aut"),email="norbert.billet@ird.fr"))
-RoxygenNote: 4.1.1.9001
+RoxygenNote: 5.0.1
+Suggests: knitr
+VignetteBuilder: knitr

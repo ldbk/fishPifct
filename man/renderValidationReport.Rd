@@ -23,7 +23,6 @@ renderValidationReport(obj, formatDb, reportFormat = "html", reportFilePath,
 }
 \value{
 File path of the created report.
-
 }
 \description{
 Build a PDF or a HTML report on a data validation against a format definition.

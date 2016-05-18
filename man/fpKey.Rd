@@ -15,8 +15,6 @@ fpKey(tab, colIndex, sep = ":-:")
 }
 \value{
 key.
-
-
 }
 \description{
 Return a string key composed by specified columns of a given table.
@@ -26,6 +24,5 @@ Return a string key composed by specified columns of a given table.
 }
 \author{
 Norbert Billet - IRD
-
 }
 

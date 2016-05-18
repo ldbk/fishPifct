@@ -11,7 +11,6 @@ COSTPk(costTable = "tr")
 }
 \value{
 list of key fields for the given COST table.
-
 }
 \description{
 Return key fields for a given COST data structure.
@@ -21,6 +20,5 @@ Return key fields for a given COST data structure.
 }
 \author{
 Norbert Billet - IRD
-
 }
 

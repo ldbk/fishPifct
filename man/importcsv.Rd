@@ -11,7 +11,6 @@ importcsv(filelist)
 }
 \value{
 a list containing the object read sequentially
-
 }
 \description{
 Import a list of csv file into a list
@@ -26,7 +25,6 @@ Import a list of csv file into a list
 
 }
 \author{
-Norrent Bibroca & Laurbert Dullet 
-
+Norrent Bibroca & Laurbert Dullet
 }
 

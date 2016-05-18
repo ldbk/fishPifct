@@ -12,14 +12,12 @@ importxlsx(filename)
 }
 \value{
 a list
-
 }
 \description{
 Import an excel file into a list 
 Excel's sheets name defined list name slot
 }
 \author{
-Norrent Bibroca & Laurbert Dullet 
-
+Norrent Bibroca & Laurbert Dullet
 }
 

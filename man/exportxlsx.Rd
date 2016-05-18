@@ -13,7 +13,6 @@ exportxlsx(object, filename)
 }
 \value{
 file path of the generated file(s).
-
 }
 \description{
 Export a S4 object in an excel file.
@@ -26,7 +25,6 @@ Export a S4 object in an excel file.
 
 }
 \author{
-Norrent Bibroca & Laurbert Dullet 
-
+Norrent Bibroca & Laurbert Dullet
 }
 

@@ -16,7 +16,6 @@ readCodeListFromXls(inputFilePath, formatNomenclatureName = FALSE,
 }
 \value{
 List of nomenclatures.
-
 }
 \description{
 Read code lists definitions from a xlsx file.

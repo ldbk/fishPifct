@@ -11,7 +11,6 @@ readFormatDbFromXls(inputFilePath)
 }
 \value{
 Format definition structure.
-
 }
 \description{
 Read a format definition from a xlsx def file.

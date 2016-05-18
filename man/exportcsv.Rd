@@ -15,7 +15,6 @@ exportcsv(object, filename)
 }
 \value{
 files path of the generated files.
-
 }
 \description{
 Export a S4 object in multiple csv files.
@@ -30,7 +29,6 @@ and the file extension (usually '.csv'). If the file name provided has no extens
 
 }
 \author{
-Naurrent Bibrolet & Lorbert Dullca 
-
+Naurrent Bibrolet & Lorbert Dullca
 }
 

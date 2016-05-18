@@ -11,7 +11,6 @@ import(file)
 }
 \value{
 a csPi or a csData object
-
 }
 \description{
 Import csPi or csData data from an excel file or csv file.

@@ -27,7 +27,6 @@ generateClasses(defFilePath, className, classVersion, additionalSlots = NULL,
 }
 \value{
 file path of the generated file.
-
 }
 \description{
 Find the fishPi class from the excel definition file.

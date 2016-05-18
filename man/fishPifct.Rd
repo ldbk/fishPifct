@@ -3,7 +3,7 @@
 \docType{package}
 \name{fishPifct}
 \alias{fishPifct}
-\alias{fishPifct -package}
+\alias{fishPifct-package}
 \title{fishPi project utilities functions}
 \description{
 A package for fishPi

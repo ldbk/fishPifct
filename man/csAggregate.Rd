@@ -19,7 +19,6 @@ csAggregate(csObj, x, by, aggFun, ...)
 }
 \value{
 A data frame with columns corresponding to the grouping variables in by followed by aggregated columns from x.
-
 }
 \description{
 Splits the fishPi CS object into subsets, computes summary statistics for each, and returns the result in a convenient form.
@@ -36,6 +35,5 @@ ggplot(data=aggByFoCatEu5) + geom_bar(mapping=aes(x=lenCls, y=lenNum), stat="ide
 }
 \author{
 Norbert Billet - IRD
-
 }
 

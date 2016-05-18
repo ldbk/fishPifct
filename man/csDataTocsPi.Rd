@@ -15,7 +15,6 @@ csDataTocsPi(csObj, seObj = NULL, extra = FALSE)
 }
 \value{
 fishPi CS object.
-
 }
 \description{
 Convert from COST CS data structure to fishPi CS structure.

@@ -623,6 +623,69 @@ validateNumeric <- function(data, slotName, columnName, isInteger, rangeMin=NA, 
 #' @author Norbert Billet
 #' @importFrom readxl excel_sheets read_excel
 #' @importFrom tools file_ext md5sum
+validateBio<- function(obj) {
+	obj<-sole.cs
+  switch (class(obj),
+          "csData" = {
+		  slhl<-merge(obj@sl,obj@hl)
+		  slhl$indw<-0.003*((slhl$lenCls/10)^3)*slhl$lenNum
+		  #pipo<-tbl_df(slhl)%>%group_by(sampType,landCtry,vslFlgCtry,year,proj,
+		#			      trpCode,staNum,spp,catchCat,landCat,commCatScl,commCat,
+		#			      subSampCat,sex,wt,subSampWt)%>%mutate()
+		 # pipo<-tapply(slhl$indw,list(slhl$sampType,slhl$landCtry,slhl$vslFlgCtry,slhl$year,slhl$proj,
+		#			      slhl$trpCode,slhl$staNum,slhl$spp,slhl$catchCat,slhl$landCat,slhl$commCatScl,slhl$commCat,
+	#			      slhl$subSampCat,slhl$sex,slhl$wt,slhl$subSampWt),sum,na.rm=T)
+		 # 
+
+	  },
+          "csPi" = {
+		  slhl<-merge(obj@sl,obj@hl)
+
+	  },
+          {
+		  print("Class unknown - no subsample weight check")
+	  }
+  )
+}
+
+test<-function(){
+	library(fishPifct)
+	data(sole)
+	pipo <- csDataTocsPi(sole.cs)
+	class(sole.cs)
+	validateBio(sole.cs)
+	class(pipo)
+	validateSampWt(pipo)
+	validateBio(data.frame())
+	#
+	load("../../../analyses/wgparam2016.rdata")
+	listsp<-unique(wgparam$Latin.name)
+	listsp<-sort(unlist(strsplit(listsp,",")))
+	listsp<-listsp[-3]
+	require(rfishbase)
+	l1<-length_weight(c(listsp))
+
+
+
+}
+
+#' Validate data against a format definition.
+#'
+#' @param obj Object to validate, could be a data.frame or a S3/S4 object.
+#' @param formatDb Format data structure.
+#' @param ignoreCaseInCodelist logical: Should the case of codes of nomenclatures to be ignored ? (default: TRUE)
+#' @param report character: Should the report be saved in .csv file (\"files\"), returned in a R session list (\"list\") or both (\"both\") ? (default: \"files\")
+#' @param reportDir character: Path where to record the report files, otherwise the path of the per-session temporary directory is used.
+#'
+#' @return Validation report.
+#'
+#' @examples
+#' \dontrun{
+#' }
+#' @export
+#' @author Norbert Billet
+#' @importFrom readxl excel_sheets read_excel
+#' @importFrom tools file_ext md5sum
 validateData <- function(obj, formatDb, ignoreCaseInCodelist=TRUE, report="files", reportDir) {
   if (missing(obj)) {
     stop("Missing obj.")
@@ -742,6 +805,7 @@ validateData <- function(obj, formatDb, ignoreCaseInCodelist=TRUE, report="files
 
     # test if the slot exists
     if (currSlot$slot_name == "base") {
+    #if (currSlot$slot_name %in% c("base","classVersion","desc","popData","design")) {
       # check the base slot
       # check the object type
       if (inherits(obj, "data.frame")) {
@@ -826,6 +890,12 @@ validateData <- function(obj, formatDb, ignoreCaseInCodelist=TRUE, report="files
             columnFound <- FALSE
           }
         }
+	#special case for descriptive slot
+    	if (currSlot$slot_name %in% c("classVersion","desc","popData","design")) {
+		columnFound<-slotFound
+		currObjColumn<- currSlot$slot_name
+	}
+
 
         if (columnFound) {
           currObjColumnReport <- rep_len(TRUE, length(currObjColumn))

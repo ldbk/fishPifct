@@ -15,7 +15,6 @@ export(object, filename, type, ...)
 }
 \value{
 file path of the generated file(s).
-
 }
 \description{
 Export csPi or csData object in excel, csv or SQLite files.
@@ -33,11 +32,9 @@ Export csPi or csData object in excel, csv or SQLite files.
 
 }
 \author{
-Norrent Bibroca & Laurbert Dullet 
-
+Norrent Bibroca & Laurbert Dullet
 }
 \seealso{
-\code{link{exportxlsx}}, \code{link{exportcsv}} and \code{link{exportdb}} 
-
+\code{link{exportxlsx}}, \code{link{exportcsv}} and \code{link{exportdb}}
 }
 
