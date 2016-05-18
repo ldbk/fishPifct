@@ -200,6 +200,23 @@ methods(class="csPi")
 ```
 Their behaviours are similar to the generic one (ie `dim` gives the dimension of all the `csPi` slots). 
 
+##Import and export in spreadsheet
+
+Fishing data rely usually on national database. Correction procedures in these systems can be a tedious work, not 
+really in accordance to quick corrections (during working groups, to harmonize datasets between countries for example).
+Manual data corrections are difficult and spreadsheet is nowadays the common tools to correct locally the data.
+A local import/export procedure is available to export the `csPi` in excel file format.
+Thus, the user can use a spreadsheet to do some corrections in the tables and then import directly the corrected tables in
+a `csPi` object in R.
+
+In this package the `import` and `export` functions do these transformation easily:
+```{r}
+export(sole,file="sole.xlsx",type="xlsx")
+#use a spreadsheet to open the sole.xlsx file and do some corrections if needed
+#save the file, and import it in R with:
+solecorrected<-importxlsx(file="sole.xlsx")
+```
+
 #Data quality checks
 
 ##Data structure checks
@@ -284,18 +301,46 @@ Using the `sole` dataset previously loaded:
 ```{r}
 #generating a report in an R object
 structurecheck<-validateData(obj=sole,formatDb=format_definition_csPi,report="list")
+```
+The meta information related to the check are:
+```{r}
+pander(structurecheck$meta,split.table=Inf)
+```
+
+The 10 first lines of the slots checks are:
+```{r}
+pander(structurecheck$struct[1:10,],split.table=Inf)
+```
+
+The 10 first lines of the variables checks are:
+```{r}
+pander(structurecheck$data[1:10,],split.table=Inf)
+```
+
+The tables are explicits and doesn't need any comments.
+To generate a complete report in pdf or html format :
+
+```{r}
 #generating a pdf report
 renderValidationReport(obj=sole,formatDb=format_definition_csPi,
 		       title="test",reportFormat="pdf")
-#this report can be found in
-```{r, eval=FALSE}
+#a copy of this report can be found in
 system.file('data', 
 'dataValidationReport_20160518_235140_29d51c808f9b.pdf',
 	    package='fishPifct')
 ```
 
+###Consistency check
+
+In this section, the consistency of the information between the 'csPi' slots is checked, e.g. identification of trips without fishing operations.
+To do so, the function `xxx`:
+
 
 ##Outliers detection
+
+###Codelist type
+
+###Numeric type
 
 ##Plots
 
@@ -316,7 +361,7 @@ in the **knitr** package. You can find the source
 in the [fihPifct repository](https://github.com/lodbk/fishPifct/tree/master/vignettes) on
 Github, or if the `fishPifct` package is installed on your computer:
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 system.file('doc', 'tutorial.Rmd', package='fishPifct')
 ```
 

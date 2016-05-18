@@ -12,7 +12,7 @@
 
 <meta name="author" content="FishPi WP4" />
 
-<meta name="date" content="2016-05-18" />
+<meta name="date" content="2016-05-19" />
 
 <title>Data quality tutorial</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Data quality tutorial</h1>
 <h4 class="author"><em>FishPi WP4</em></h4>
-<h4 class="date"><em>2016-05-18</em></h4>
+<h4 class="date"><em>2016-05-19</em></h4>
 
 
 
@@ -460,6 +460,16 @@ sole &lt;-<span class="st"> </span><span class="kw">csDataTocsPi</span>(sole.cs)
 ## see '?methods' for accessing help and source code</code></pre>
 <p>Their behaviours are similar to the generic one (ie <code>dim</code> gives the dimension of all the <code>csPi</code> slots).</p>
 </div>
+<div id="import-and-export-in-spreadsheet" class="section level2">
+<h2>Import and export in spreadsheet</h2>
+<p>Fishing data rely usually on national database. Correction procedures in these systems can be a tedious work, not really in accordance to quick corrections (during working groups, to harmonize datasets between countries for example). Manual data corrections are difficult and spreadsheet is nowadays the common tools to correct locally the data. A local import/export procedure is available to export the <code>csPi</code> in excel file format. Thus, the user can use a spreadsheet to do some corrections in the tables and then import directly the corrected tables in a <code>csPi</code> object in R.</p>
+<p>In this package the <code>import</code> and <code>export</code> functions do these transformation easily:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">export</span>(sole,<span class="dt">file=</span><span class="st">&quot;sole.xlsx&quot;</span>,<span class="dt">type=</span><span class="st">&quot;xlsx&quot;</span>)</code></pre></div>
+<pre><code>## [1] &quot;sole.xlsx&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#use a spreadsheet to open the sole.xlsx file and do some correction</span>
+<span class="co">#save the file, and import it in R with:</span>
+solecorrected&lt;-<span class="kw">importxlsx</span>(<span class="dt">file=</span><span class="st">&quot;sole.xlsx&quot;</span>)</code></pre></div>
+</div>
 </div>
 <div id="data-quality-checks" class="section level1">
 <h1>Data quality checks</h1>
@@ -726,16 +736,238 @@ sole &lt;-<span class="st"> </span><span class="kw">csDataTocsPi</span>(sole.cs)
 <h3>Outputs</h3>
 <p>The results of the data structure checks are given in a report summarizing all the checks, if these checks pass, and why. Using the <code>sole</code> dataset previously loaded:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#generating a report in an R object</span>
-structurecheck&lt;-<span class="kw">validateData</span>(<span class="dt">obj=</span>sole,<span class="dt">formatDb=</span>format_definition_csPi,<span class="dt">report=</span><span class="st">&quot;list&quot;</span>)
-<span class="co">#generating a pdf report</span>
+structurecheck&lt;-<span class="kw">validateData</span>(<span class="dt">obj=</span>sole,<span class="dt">formatDb=</span>format_definition_csPi,<span class="dt">report=</span><span class="st">&quot;list&quot;</span>)</code></pre></div>
+<p>The meta information related to the check are:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pander</span>(structurecheck$meta,<span class="dt">split.table=</span><span class="ot">Inf</span>)</code></pre></div>
+<table>
+<colgroup>
+<col width="25%"></col>
+<col width="26%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">parameter</th>
+<th align="center">value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">format_name</td>
+<td align="center">csPi</td>
+</tr>
+<tr class="even">
+<td align="center">format_version</td>
+<td align="center">2.1</td>
+</tr>
+<tr class="odd">
+<td align="center">validate_date</td>
+<td align="center">2016-05-19 01:03:04</td>
+</tr>
+<tr class="even">
+<td align="center">dataset_container</td>
+<td align="center">object</td>
+</tr>
+<tr class="odd">
+<td align="center">format_container</td>
+<td align="center">object</td>
+</tr>
+</tbody>
+</table>
+<p>The 10 first lines of the slots checks are:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pander</span>(structurecheck$struct[<span class="dv">1</span>:<span class="dv">10</span>,],<span class="dt">split.table=</span><span class="ot">Inf</span>)</code></pre></div>
+<table>
+<colgroup>
+<col width="18%"></col>
+<col width="18%"></col>
+<col width="22%"></col>
+<col width="12%"></col>
+<col width="12%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">slot</th>
+<th align="center">column</th>
+<th align="center">test</th>
+<th align="center">result</th>
+<th align="center">message</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">classVersion</td>
+<td align="center">NA</td>
+<td align="center">Slot exists ?</td>
+<td align="center">OK</td>
+<td align="center">Found</td>
+</tr>
+<tr class="even">
+<td align="center">classVersion</td>
+<td align="center">classVersion</td>
+<td align="center">Column exists ?</td>
+<td align="center">OK</td>
+<td align="center">Found</td>
+</tr>
+<tr class="odd">
+<td align="center">desc</td>
+<td align="center">NA</td>
+<td align="center">Slot exists ?</td>
+<td align="center">OK</td>
+<td align="center">Found</td>
+</tr>
+<tr class="even">
+<td align="center">desc</td>
+<td align="center">desc</td>
+<td align="center">Column exists ?</td>
+<td align="center">OK</td>
+<td align="center">Found</td>
+</tr>
+<tr class="odd">
+<td align="center">popData</td>
+<td align="center">NA</td>
+<td align="center">Slot exists ?</td>
+<td align="center">OK</td>
+<td align="center">Found</td>
+</tr>
+<tr class="even">
+<td align="center">popData</td>
+<td align="center">popData</td>
+<td align="center">Column exists ?</td>
+<td align="center">OK</td>
+<td align="center">Found</td>
+</tr>
+<tr class="odd">
+<td align="center">design</td>
+<td align="center">NA</td>
+<td align="center">Slot exists ?</td>
+<td align="center">OK</td>
+<td align="center">Found</td>
+</tr>
+<tr class="even">
+<td align="center">design</td>
+<td align="center">design</td>
+<td align="center">Column exists ?</td>
+<td align="center">OK</td>
+<td align="center">Found</td>
+</tr>
+<tr class="odd">
+<td align="center">se</td>
+<td align="center">NA</td>
+<td align="center">Slot exists ?</td>
+<td align="center">OK</td>
+<td align="center">Found</td>
+</tr>
+<tr class="even">
+<td align="center">se</td>
+<td align="center">recType</td>
+<td align="center">Column exists ?</td>
+<td align="center">OK</td>
+<td align="center">Found</td>
+</tr>
+</tbody>
+</table>
+<p>The 10 first lines of the variables checks are:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pander</span>(structurecheck$data[<span class="dv">1</span>:<span class="dv">10</span>,],<span class="dt">split.table=</span><span class="ot">Inf</span>)</code></pre></div>
+<table>
+<colgroup>
+<col width="15%"></col>
+<col width="15%"></col>
+<col width="25%"></col>
+<col width="10%"></col>
+<col width="31%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">slot</th>
+<th align="center">column</th>
+<th align="center">test</th>
+<th align="center">result</th>
+<th align="center">message</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">classVersion</td>
+<td align="center">classVersion</td>
+<td align="center">is text ?</td>
+<td align="center">OK</td>
+<td align="center">All values are text</td>
+</tr>
+<tr class="even">
+<td align="center">classVersion</td>
+<td align="center">classVersion</td>
+<td align="center">is null ?</td>
+<td align="center">OK</td>
+<td align="center">All values are not null</td>
+</tr>
+<tr class="odd">
+<td align="center">desc</td>
+<td align="center">desc</td>
+<td align="center">is text ?</td>
+<td align="center">OK</td>
+<td align="center">All values are text</td>
+</tr>
+<tr class="even">
+<td align="center">desc</td>
+<td align="center">desc</td>
+<td align="center">is null ?</td>
+<td align="center">OK</td>
+<td align="center">All values are not null</td>
+</tr>
+<tr class="odd">
+<td align="center">popData</td>
+<td align="center">popData</td>
+<td align="center">is text ?</td>
+<td align="center">OK</td>
+<td align="center">All values are text</td>
+</tr>
+<tr class="even">
+<td align="center">popData</td>
+<td align="center">popData</td>
+<td align="center">is null ?</td>
+<td align="center">OK</td>
+<td align="center">All values are not null</td>
+</tr>
+<tr class="odd">
+<td align="center">design</td>
+<td align="center">design</td>
+<td align="center">is text ?</td>
+<td align="center">OK</td>
+<td align="center">All values are text</td>
+</tr>
+<tr class="even">
+<td align="center">design</td>
+<td align="center">design</td>
+<td align="center">is null ?</td>
+<td align="center">OK</td>
+<td align="center">All values are not null</td>
+</tr>
+<tr class="odd">
+<td align="center">se</td>
+<td align="center">recType</td>
+<td align="center">is valid code list ?</td>
+<td align="center">OK</td>
+<td align="center">All values are valid codes</td>
+</tr>
+<tr class="even">
+<td align="center">se</td>
+<td align="center">recType</td>
+<td align="center">is null ?</td>
+<td align="center">OK</td>
+<td align="center">All values are not null</td>
+</tr>
+</tbody>
+</table>
+<p>The tables are explicits and doesn’t need any comments. To generate a complete report in pdf or html format :</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#generating a pdf report</span>
 <span class="kw">renderValidationReport</span>(<span class="dt">obj=</span>sole,<span class="dt">formatDb=</span>format_definition_csPi,
                <span class="dt">title=</span><span class="st">&quot;test&quot;</span>,<span class="dt">reportFormat=</span><span class="st">&quot;pdf&quot;</span>)</code></pre></div>
-<pre><code>## Report generated [/tmp/Rtmp1UXAyq/dataValidationReport_20160518_235421_41d015817a36.pdf]</code></pre>
-<pre><code>## [1] &quot;/tmp/Rtmp1UXAyq/dataValidationReport_20160518_235421_41d015817a36.pdf&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#this report can be found in</span></code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.file</span>(<span class="st">'data'</span>, 
+<pre><code>## Report generated [/tmp/RtmpSa0Z38/dataValidationReport_20160519_010305_4fb922382128.pdf]</code></pre>
+<pre><code>## [1] &quot;/tmp/RtmpSa0Z38/dataValidationReport_20160519_010305_4fb922382128.pdf&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#a copy of this report can be found in</span>
+<span class="kw">system.file</span>(<span class="st">'data'</span>, 
 <span class="st">'dataValidationReport_20160518_235140_29d51c808f9b.pdf'</span>,
         <span class="dt">package=</span><span class="st">'fishPifct'</span>)</code></pre></div>
+<pre><code>## [1] &quot;/home/moi/ifremer/fishpi/fishPifct/data/dataValidationReport_20160518_235140_29d51c808f9b.pdf&quot;</code></pre>
 </div>
 </div>
 <div id="outliers-detection" class="section level2">
@@ -761,6 +993,7 @@ structurecheck&lt;-<span class="kw">validateData</span>(<span class="dt">obj=</s
 <h1>About this vignette</h1>
 <p>This vignette was built using the vignette engine <code>knitr::rmarkdown</code> in the <strong>knitr</strong> package. You can find the source in the <a href="https://github.com/lodbk/fishPifct/tree/master/vignettes">fihPifct repository</a> on Github, or if the <code>fishPifct</code> package is installed on your computer:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.file</span>(<span class="st">'doc'</span>, <span class="st">'tutorial.Rmd'</span>, <span class="dt">package=</span><span class="st">'fishPifct'</span>)</code></pre></div>
+<pre><code>## [1] &quot;/home/moi/ifremer/fishpi/fishPifct/inst/doc/tutorial.Rmd&quot;</code></pre>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1>References</h1>

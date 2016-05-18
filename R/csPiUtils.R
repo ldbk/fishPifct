@@ -25,7 +25,7 @@ setMethod("csPi",
 setMethod("csPi", 
           signature("data.frame", "data.frame", "data.frame", "data.frame", "data.frame", "data.frame"), 
           function(se, tr, hh, sl, hl, ca, 
-                   desc="Commercial Sampling Data", popData="Named cpRDB object", design="Design description", 
+                   desc="", popData="", design="",history="", 
                    check=FALSE, ...) {
   # create object and name columns properly 
   obj <- new("csPi")
@@ -57,7 +57,7 @@ setMethod("csPi",
   #check
   #  if (check) check.fields(new("csData", tr=tr, hh=hh, sl=sl, hl=hl, ca=ca, desc=desc))
   # object
-  new("csPi", se=se,tr=tr, hh=hh, sl=sl, hl=hl, ca=ca, desc=desc, popData=popData, design=design)
+  new("csPi", se=se,tr=tr, hh=hh, sl=sl, hl=hl, ca=ca, desc=desc, popData=popData, design=design,history=history)
 })
 
 
@@ -353,11 +353,15 @@ import<-function(file){
 #	file<-"/home/moi/output.xlsx"
   #get sheet names
   namessheet<-getSheetNames(file)
-  testcsPi<-all(namessheet%in%c("info","se","tr","hh","sl","hl","ca"))
+  testcsPi<-all(namessheet%in%c("classVersion","desc","popData","design","history","se","tr","hh","sl","hl","ca"))
   testcsData<-all(namessheet%in%c("desc","tr","hh","sl","hl","ca"))
   if(testcsPi){
   	## read worksheets
-  	info<-readWorkbook(file, "info")
+  	classVersion<-readWorkbook(file, "classVersion")
+  	desc<-readWorkbook(file, "desc")
+  	popData<-readWorkbook(file, "popData")
+  	design<-readWorkbook(file, "design")
+  	history<-readWorkbook(file, "history")
   	se<-readWorkbook(file, "se")
   	tr<-readWorkbook(file, "tr")
   	hh<-readWorkbook(file, "hh")
@@ -403,13 +407,25 @@ import<-function(file){
 #'
 #' @export
 importxlsx<-function(filename){
+	#library(fishPifct)
+	#filename<-"../vignettes/sole.xlsx"
 	#get the sheet name
 	namessheet<-getSheetNames(filename)
 	pipo<-list()
 	for(id in namessheet){
 		pipo[[id]]<-readWorkbook(filename, id)
 	}
-	return(pipo)
+	pipoPi<-csPi()
+	nomslot<-slotNames(pipoPi)
+	for(i in 1:length(nomslot)){
+		tmp<-pipo[[which(names(pipo)%in%nomslot[i])]]
+		if(ncol(tmp)==1){
+			slot(pipoPi,nomslot[i])<-tmp[,1]
+		}else{
+			slot(pipoPi,nomslot[i])<-tmp
+		}
+	}
+	return(pipoPi)
 }
 #====================================================================
 # 'importcsv' function
