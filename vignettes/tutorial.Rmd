@@ -2,7 +2,7 @@
 title: "Data quality tutorial"
 author: "FishPi WP4"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: html_vignette
 bibliography: '/home/moi/datahome/work/biblio/enfin/biblioloran.bib'
 vignette: >
   %\VignetteIndexEntry{Vignette Title}
@@ -243,7 +243,7 @@ The structure check includes the ordered verification of :
 The data structure definition is given for `csPi` objects by the list `format_definition_csPi`.
 This list is built from the excel file `format_definition_csPi.xlsx` in the data directory of the
 installation directory of the package. Providing the excel file gives to the end user the possibility to modify
-the data structure check (for example the lower and upper limits of the length class, or a limited list of métier).
+the data structure check (for example the lower and upper limits of the length class, or a limited list of metier).
 
 ###Slot definition
 

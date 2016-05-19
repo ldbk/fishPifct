@@ -7,10 +7,9 @@ Some of these functions are coming from the SDEFQuality package from Norbert Bil
 
 #Installation
 
-You can install directly the compiled version of this package (compiled the
-29/10/2015 thanks to http://win-builder.r-project.org):
+The package source can be downloaded here:
 
-https://dl.dropboxusercontent.com/u/6181692/fishPifct_0.1.zip
+https://dl.dropboxusercontent.com/u/6181692/fishPifct_0.9.tar.gz
 
 There are some issues with the openxlsx package installation (needed to import and export csPi and csData object in excel file).
 Please read carefully the error messages R gives to you (the way to fix these errors are explained to you in these messages).

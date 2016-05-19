@@ -6,9 +6,9 @@
 #' with each gear. If a fishing gear is used by more than the sum of all the others (i.e. a vessel spends more than 50 % of
 #' its fishing time using that gear), the vessel shall be allocated to that segment. If not, the vessel shall be allocated to the
 #' following fleet segment:
-#' (a) ‘vessels using Polyvalent active gears’ if it only uses active gears;
-#' (b) ‘vessels using Polyvalent passive gears’ if it only uses passive gears;
-#' (c) ‘vessels using active and passive gears’.
+#' (a) 'vessels using Polyvalent active gears if it only uses active gears;
+#' (b) 'vessels using Polyvalent passive gears if it only uses passive gears;
+#' (c) 'vessels using active and passive gears.
 #'
 #' @format A data frame with 3 variables and 13 observations.
 #' 

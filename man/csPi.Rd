@@ -19,19 +19,19 @@ A unique and short code identifying the sampling event. National code. }
 \item{dataProv: }{Data provider (type: string).
 A means of recording who provided the data to the RDB, this may be different from the institute or body that actually did the sampling}
 \item{sampCtry: }{Sampling country (type: string).
-ISO 3166 – 1 alpha-3 codes. The country that did the sampling}
+ISO 3166 1 alpha-3 codes. The country that did the sampling}
 \item{sampInst: }{Sampling institution (type: NA).
 The sampling institution, i.e. those who actually did the sampling. This might not be the organization who ultimately provide the data to the RDB.}
 \item{sampMeth: }{Sampling method (type: string).
-“Observer” or “SelfSampling”.}
+'Observer' or 'SelfSampling'.}
 \item{sampTeam: }{Sampling team (type: string).
 An identifier for the individuals or team who collected the sample. This is likely to be mainly of interest at the national level and would be an optional field for RDB inclusion. Similar fields in the ca table could provide information on who did the age reading and should be considered.}
 \item{seYear: }{Sampling year (type: integer).
 Sampling event year}
 \item{sampDate: }{Sampling date (type: string).
-“YYYY-MM-DD” (ISO 8601).  The date on which the sampling occurred (see general issues below).}
+'YYYY-MM-DD' (ISO 8601). The date on which the sampling occurred (see general issues below).}
 \item{sampTime: }{Sampling time (type: string).
-“HH:MM". The time on which the sampling occurred (see general issues below).}
+'HH:MM'. The time on which the sampling occurred (see general issues below).}
 \item{sampLoc: }{Sampling location (type: string).
 The location where the sampling is done}
 \item{sampLocType: }{Sampling location type (type: string).
@@ -39,7 +39,7 @@ This describes the type of location where the sampling occurred e.g. a market, a
 \item{psuType: }{Design class (type: string).
 This is the type of the psu and falls within the 4 classes proposed by WKPICS 2 (ICES 2012); the vessel x time, the trip, the site x day or the site. This is the unit of which psuTotal and psuSamp are measures}
 \item{design: }{Design (type: NA).
-This would be a character string specifying the type of sampling design used to collect the data, for example “stratified two stage cluster”. It could link specifically to the design object descriptions used in the R survey package, and would ensure that the appropriate estimation process was followed for the specific sampling data.}
+This would be a character string specifying the type of sampling design used to collect the data, for example 'stratified two stage cluster'. It could link specifically to the design object descriptions used in the R survey package, and would ensure that the appropriate estimation process was followed for the specific sampling data.}
 \item{popData: }{Population Data (type: NA).
 This would be a character string slot that allowed the specific population data from which the sample was drawn to be identified. It could be a specific link to a cpRDB object.}
 \item{sampScheme: }{Sampling scheme (type: NA).
@@ -49,13 +49,13 @@ The name of the sampling stratum in the particular scheme from which the actual 
 \item{sampTemporalUnit: }{Sampling Temporal Unit (type: NA).
 The period over which the sampling is organized e.g. year, season, semester, quarter. This is the temporal sampling stratum during which sampling effort would be assumed not to change. It could include seasonal periods. This temporal period is quite distinct from a time domain, such as a quarter, for which an estimate may be needed.}
 \item{sampTemporalId: }{Sampling Temporal Identifier (type: NA).
-The name for temporal unit to which the data belongs. E.g. "2013" or "first season 2011" or "Qtr1 2012"}
+The name for temporal unit to which the data belongs. E.g. '2013' or 'first season 2011' or 'Qtr1 2012'}
 \item{psuKey: }{Primary Sampling Unit key (type: NA).
 This lists the elements in the se table that exactly allows the sampling unit to be uniquely identified. Typically it would include the scheme, the stratum, the sampling temporal identifier, the sampling date and sampling location}
 \item{psuId: }{Primary Sampling Unit Identifier   (type: NA).
 This is the concatenation of the actual values from the fields specified by the psuKey. These are unique to the sample, and ideally map to the elements in the population dataset (cpRDB) that can be similarly classified. The psuId would be a replicated field in all the tables in the csRDB structure.}
 \item{psuTotal: }{Primary Sampling Unit Total   (type: NA).
-This is the total number of possible sampling elements in the population e.g. market days over the year, vessels in the sampling frame. This would generally be obtained from the population data that is explicitly liked to the csRDB sample data. The @$popData slot was envisaged to allow this dataset to be specifically identified.}
+This is the total number of possible sampling elements in the population e.g. market days over the year, vessels in the sampling frame. This would generally be obtained from the population data that is explicitly liked to the csRDB sample data. The popData slot was envisaged to allow this dataset to be specifically identified.}
 \item{psuSampled: }{Primary Sampling Unit Sampled   (type: NA).
 This is the total number of samples obtained from within the sampling stratum and will correspond to the number of unique psuId values.}
 \item{psuSampProb: }{Primary Sampling Unit Probability (type: NA).
@@ -63,6 +63,7 @@ This will be the probability of selecting the sampling unit, in many instances i
 }}
 
 \item{\code{Slot}}{TR:
+
 \describe{
 \item{recType: }{Record type (type: string).
 Fixed value TR.}
@@ -73,11 +74,11 @@ NA}
 \item{proj: }{Project (type: string).
 National project name. Code list is editable.}
 \item{trpCode: }{Trip code (type: string).
-National coding system.?3}
+National coding system.}
 \item{sampType: }{Sampling type (type: string).
-“S” = sea sampling, “M” = market sampling of known fishing trips, “D” = market sampling of mixed trips, “V” = vendor. 1}
+'S'=sea sampling,'M'=market sampling of known fishing trips, 'D'=market sampling of mixed trips, 'V'=vendor.}
 \item{vslFlgCtry: }{Vessel flag country (type: string).
-ISO 3166-1 alpha-3 codes: the flag country of the vessel. This can be different from the landing country (see description of Landing country).?2}
+ISO 3166-1 alpha-3 codes: the flag country of the vessel. This can be different from the landing country (see description of Landing country).}
 \item{vslId: }{Vessel identifier (encrypted) (type: integer).
 Encrypted vessel identifier. Id encrypted so that no-one can map the Id to the real vessel.}
 \item{vslLen: }{Vessel length (type: integer).
@@ -85,7 +86,7 @@ Over-all length in metres.}
 \item{vslLenCat: }{Vessel length category (type: string).
 NA}
 \item{vslPwr: }{Vessel power (type: integer).
-Vessel power (kW)?.5}
+Vessel power (kW).}
 \item{vslSize: }{Vessel size (type: integer).
 Gross registered tonnes (GRT) }
 \item{vslSizeUnit: }{Vessel size unit (type: string).
@@ -93,23 +94,23 @@ A new field for the vessel size unit, gross tonnage GT and gross registered tonn
 \item{vslType: }{Vessel type (type: integer).
 1=stern trawler, 2=side trawler, 3=gillnetter, 4=other boats.}
 \item{foNum: }{Number of sets/hauls on trip (type: integer).
-Total number of hauls/sets taken during the trip. Both the stations where biological measures were taken and the stations that were not worked up should be counted here.?8}
+Total number of hauls/sets taken during the trip. Both the stations where biological measures were taken and the stations that were not worked up should be counted here.}
 \item{daysAtSea: }{Days at sea (type: integer).
-In days.?9}
+In days.}
 \item{voyageId: }{Voyage identifier (type: string).
 A new field for voyage identifier. This would provide a direct link to control agency data and can be the fishing trip ID or landing ID. It would provide a link between the population data and the sampling frame}
 \item{depLoc: }{Departure location (type: string).
 NA}
 \item{depDate: }{Depature date (type: string).
-“YYYY-MM-DD” (ISO 8601). The date of departure of the trip}
+'YYYY-MM-DD' (ISO 8601). The date of departure of the trip}
 \item{depTime: }{Departure time (type: string).
-"HH:MM". The time of departure of the trip.}
+'HH:MM'. The time of departure of the trip.}
 \item{arvLoc: }{Arrival location (type: string).
 NA}
 \item{arvDate: }{Arrival date (type: string).
-“YYYY-MM-DD” (ISO 8601). The date of arrival of the trip.}
+'YYYY-MM-DD' (ISO 8601). The date of arrival of the trip.}
 \item{arvTime: }{Arrival time (type: string).
-"HH:MM". The arrival time of the trip.}
+'HH:MM'. The arrival time of the trip.}
 \item{ssuType: }{Secondary sampling unit Type (type: string).
 The type of secondary sampling unit, e.g. this could be vessels landing at a market on a particular day in the case of onshore sampling, or a fishing trip of a particular vessel in the at-sea case. Analogous to the use of psuType in the se table. }
 \item{ssuKey: }{Secondary sampling unit key (type: string).
@@ -151,47 +152,47 @@ Fishing operation Identifier; this would be the specific identifier for the fish
 \item{foVal: }{Fishing validity (type: string).
 I=Invalid. V=Valid.}
 \item{catReg: }{Catch registration (type: string).
-The catch registration. An existing field that was unclear. Registers what components of the catch can be expected in the sl tables. The parts (landings/discards) of the catch are registered as "All", "Lan", "Dis", "Non". According to current definitions "All" assumes that both "Lan" and "Dis" are sampled. Do we need a category for Catch samples?}
+The catch registration. An existing field that was unclear. Registers what components of the catch can be expected in the sl tables. The parts (landings/discards) of the catch are registered as 'All', 'Lan', 'Dis', 'Non'. According to current definitions 'All' assumes that both 'Lan' and 'Dis' are sampled. Do we need a category for Catch samples}
 \item{sppReg: }{Species registration (type: string).
-The species in the catch, registered as "All", "Par", "Non".}
+The species in the catch, registered as 'All', 'Par', 'Non'.}
 \item{foDate: }{Date (type: string).
 Date. This would be defined according to the fishing operation, and the subgroup considered that it should become foDate. There might however be database issues in the changing of a field name.}
 \item{foTime: }{Time (type: string).
-Starting time. "HH:MM"… in UTC.?9}
+Starting time. 'HH:MM' in UTC.}
 \item{foDur: }{Fishing duration (type: integer).
 In minutes.10}
 \item{latIni: }{Pos.Start.Lat.dec. (type: dec(5)).
-Shooting (start) position in decimal degrees of latitude.?11 }
+Shooting (start) position in decimal degrees of latitude. }
 \item{lonIni: }{Pos.Start.Lon.dec. (type: dec(5)).
-Shooting (start) position in decimal degrees of longitude?.11}
+Shooting (start) position in decimal degrees of longitude.}
 \item{latFin: }{Pos.Stop.Lat.dec. (type: dec(5)).
-Hauling (stop) position in decimal degrees of latitude?.11}
+Hauling (stop) position in decimal degrees of latitude.}
 \item{lonFin: }{Pos.Stop.Lon.dec. (type: dec(5)).
-Hauling (stop) position in decimal degrees of longitude.?11}
+Hauling (stop) position in decimal degrees of longitude.}
 \item{ecoZone: }{Economical zone (type: NA).
 The economic zone. An additional spatial variable that can be used to identify areas beyond the ICES divisions.}
 \item{area: }{Area (type: string).
 Area level 3 (level 4 for Baltic, Mediterranean, and Black Seas) in the Data Collection Regulation (EC, 2008a, 2008b).}
 \item{rect: }{Statistical rectangle (type: string).
-Area level 5 in the Data Collection Regulation (EC, 2008a, 2008b). This is the ICES statistical rectangles (e.g. 41G9) except for the Mediterranean and Black Seas, where GFCM geographical subareas (GSAs) are used.?13}
+Area level 5 in the Data Collection Regulation (EC, 2008a, 2008b). This is the ICES statistical rectangles (e.g. 41G9) except for the Mediterranean and Black Seas, where GFCM geographical subareas (GSAs) are used.}
 \item{subRect: }{Subpolygon (type: string).
 National level as defined by each country as child nodes (substratification) of the ICES rectangles. It is recommended that this is coordinated internationally, e.g. through the Regional Coordination Meetings (EC RCMs).}
 \item{foDep: }{Main fishing depth (type: integer).
-Depth from surface to groundrope in metres?.5}
+Depth from surface to groundrope in metres.}
 \item{waterDep: }{Main water depth (type: integer).
-Depth from surface in metres?.14}
+Depth from surface in metres.}
 \item{foCatNat: }{Fishing activity category National (type: string).
-Country specific Fishing activity category (=?métier). National level as defined by each country as child nodes (substratification) of the level-5 codes.}
+Country specific Fishing activity category (=metier). National level as defined by each country as child nodes (substratification) of the level-5 codes.}
 \item{foCatEu5: }{Fishing activity category European lvl 5 (type: string).
-Fishing activity category (=?métier). Level 5 as defined in a hierarchic structure in the Data Collection Regulation (EC, 2008a, 2008b).}
+Fishing activity category (=metier). Level 5 as defined in a hierarchic structure in the Data Collection Regulation (EC, 2008a, 2008b).}
 \item{foCatEu6: }{Fishing activity category European lvl 6 (type: string).
 Fishing activity category. Level 6 as defined in a hierarchic structure in the Data Collection Regulation (EC, 2008a, 2008b). Level 6 is further specified by the Regional Coordination Meetings (EC RCMs, Council Regulation [EC] No 1543/2000) or any later authorized revision.}
 \item{gear: }{Gear type (type: streng).
 NA}
 \item{meshSize: }{Mesh size (type: integer).
-Stretch measure.?18}
+Stretch measure.}
 \item{selDev: }{Selection device (type: integer).
-Not mounted?=?0, Exit window / selection panel?=?1, grid?=?2. A selection device is defined as a square-meshed panel or window that is inserted into a towed net.}
+Not mounted=0, Exit window / selection panel=1, grid=. A selection device is defined as a square-meshed panel or window that is inserted into a towed net.}
 \item{meshSizeSelDev: }{Mesh size in selection device (type: integer).
 In mm. The mesh size of a square-meshed panel or window shall mean the largest determinable mesh size of such a panel or window.}
 \item{landCtry: }{Landing country (type: string).
@@ -247,17 +248,17 @@ The commercial species. These are how the commercial data are likely to be recor
 \item{spp: }{Species (type: string).
 Scientific name in Latin (Genus species). (A suffix to the latin name  is used for species for which Stock cannot be defined by area)}
 \item{catchCat: }{Catch category (type: string).
-The fate of the catch: "Dis"=discard, "Lan"=landing.}
+The fate of the catch: 'Dis'=discard, 'Lan'=landing.}
 \item{landCat: }{Landing category (type: string).
-The intended usage at the time of landing. This should match the same field in CL record (whether or not the fish was actually used for this or another purpose): "IND"=industry or "HUC"=human consumption.}
+The intended usage at the time of landing. This should match the same field in CL record (whether or not the fish was actually used for this or another purpose): 'IND'=industry or 'HUC'=human consumption.}
 \item{commCatScl: }{Commercial size category scale (type: string).
-Commercial sorting scale code (optional for "Unsorted"). }
+Commercial sorting scale code (optional for 'Unsorted'). }
 \item{commCat: }{Commercial size category (type: integer).
-Commercial sorting category in the given scale (optional for "Unsorted"). (EC, 2006) and later amendments when scale is "EU".}
+Commercial sorting category in the given scale (optional for 'Unsorted'). (EC, 2006) and later amendments when scale is 'EU'.}
 \item{subSampCat: }{Subsampling category (type: string).
 Used when different fractions of the same species are subsampled at different levels. Typically used when few large specimens are taken out from the total catch before the many small fish are subsampled.}
 \item{sex: }{Sex (type: string).
-M=Male, F=Female, T=Transitional2 (optional for "Unsexed").}
+M=Male, F=Female, T=Transitional2 (optional for 'Unsexed').}
 \item{unitType: }{Unit type (type: NA).
 The type of sampling unit. This would define the sampling unit at the sl level, and could be be for example a box of fish, a section of net, a basket of mixed discards}
 \item{unitKey: }{Unit Key  (type: NA).
@@ -279,7 +280,7 @@ Presentation; the condition in which the sample was presented, e.g. gutted, whol
 \item{convFacWt: }{Conversion Factor Weight (type: NA).
 The conversion factor used to get from the presentation to the whole weight (wt) field in the sl table.}
 \item{lenCode: }{Length code (type: string).
-Class: 1?mm?=?"mm", 0.5?cm?=?"scm"; 1?cm?=?"cm"; 2.5?cm?=?25?mm", 5?cm?=?"5?cm".}
+Class: 1mm='mm', 0.5cm='scm'; 1cm='cm'; 2.5cm=5mm', 5cm='5cm'.}
 \item{unitTotal: }{Sampling Unit Total  (type: NA).
 The sampling unit total, e.g. the total number of boxes, baskets, etc. used to quantify the sampling unit.}
 \item{unitSampled: }{Sampling Units Sampled   (type: NA).
@@ -307,23 +308,23 @@ Fishing operation Identifier; this would be the specific identifier for the fish
 \item{spp: }{Species (type: string).
 Scientific name in Latin (Genus species). (A suffix to the latin name  is used for species for which Stock cannot be defined by area)}
 \item{catchCat: }{Catch category (type: string).
-The fate of the catch: "Dis"=discard, "Lan"=landing.}
+The fate of the catch: 'Dis'=discard, 'Lan'=landing.}
 \item{landCat: }{Landing category (type: string).
-The intended usage at the time of landing. This should match the same field in CL record (whether or not the fish was actually used for this or another purpose): "IND"=industry or "HUC"=human consumption.}
+The intended usage at the time of landing. This should match the same field in CL record (whether or not the fish was actually used for this or another purpose): 'IND'=industry or 'HUC'=human consumption.}
 \item{commCatScl: }{Commercial size category scale (type: string).
-Commercial sorting scale code (optional for "Unsorted"). }
+Commercial sorting scale code (optional for 'Unsorted'). }
 \item{commCat: }{Commercial size category (type: integer).
-Commercial sorting category in the given scale (optional for "Unsorted"). (EC, 2006) and later amendments when scale is "EU".}
+Commercial sorting category in the given scale (optional for 'Unsorted'). (EC, 2006) and later amendments when scale is 'EU'.}
 \item{subSampCat: }{Subsampling category (type: string).
 Used when different fractions of the same species are subsampled at different levels. Typically used when few large specimens are taken out from the total catch before the many small fish are subsampled.}
 \item{sex: }{Sex (type: string).
-M=Male, F=Female, T=Transitional2 (optional for "Unsexed").}
+M=Male, F=Female, T=Transitional2 (optional for 'Unsexed').}
 \item{unitId: }{Unit Identifier (type: NA).
 The sampling unit identifier, the actual value of the sampling unit as specified by the unitKey.}
 \item{indSex: }{Individual sex (type: string).
 The individual sex field allows the sample of a species to be split by sex after being sampled e.g. Rays, Nephrops. This allows a sex specific length distribution to be recorded. This was a point of clarity for the subgroup as to why this field was needed, it is an existing field and there would be no change to its use. Compare with the sex field in the sl table.}
 \item{lenCls: }{Length class (type: integer).
-In mm. Identifier: lower bound of size class, e.g. 650 for 65?-?66?cm.}
+In mm. Identifier: lower bound of size class, e.g. 650 for 65-66cm.}
 \item{lenNum: }{Number at length (not raised to whole catch) (type: integer).
 Length classes with zero should be excluded from the record.}
 \item{measType: }{Measurement type (type: NA).
@@ -353,7 +354,7 @@ NA}
 \item{proj: }{Project (type: string).
 National project name. Code list is editable.}
 \item{trpCode: }{Trip code (type: string).
-National coding system.?3}
+National coding system.}
 \item{staNum: }{Station number (type: integer).
 Sequential numbering by trip.}
 \item{foId: }{Fishing Operation Identifier (type: NA).
@@ -365,7 +366,7 @@ NA}
 \item{spp: }{Species (type: string).
 Scientific name in Latin (Genus species). A suffix to the latin name  is used for species for which Stock cannot be defined by area)}
 \item{sex: }{Sex (type: string).
-M=Male, F=Female, T=Transitional2 (optional for "Unsexed").}
+M=Male, F=Female, T=Transitional2 (optional for 'Unsexed').}
 \item{unitId: }{Unit Identifier (type: NA).
 NA}
 \item{indSex: }{Individual sex (type: NA).
@@ -375,9 +376,9 @@ The fate of the catch: discard or landing.}
 \item{landCat: }{Landing category (type: string).
 The intended usage at the time of landing. This should match the same field in the LS record (whether or not the fish was actually used for this or another purpose): industry or human consumption.}
 \item{commCatScl: }{Commercial size category scale (type: string).
-Commercial sorting scale code (optional for "Unsorted").}
+Commercial sorting scale code (optional for 'Unsorted').}
 \item{commCat: }{Commercial size category (type: integer).
-Commercial sorting category in the given scale. (optional for "Unsorted").}
+Commercial sorting category in the given scale. (optional for 'Unsorted').}
 \item{subSampCat: }{Subsampling category (type: NA).
 NA}
 \item{stock: }{Stock (type: string).
@@ -389,13 +390,13 @@ Area level 5 in the Data Collection Regulation (EC, 2008a, 2008b). This is the I
 \item{subRect: }{Subpolygon (type: string).
 National level as defined by each country as child nodes (substratification) of the ICES rectangles. It is recommended that this is coordinated internationally, e.g. through the Regional Coordination Meetings (EC RCMs).}
 \item{lenCls: }{Length class (type: integer).
-In mm. Identifier: lower bound of size class, e.g. 650 for 65?-66?cm.}
+In mm. Identifier: lower bound of size class, e.g. 650 for 65-66cm.}
 \item{age: }{Age (type: integer).
 Estimated age.}
 \item{fishId: }{Single fish number (id) (type: integer).
 National numbering system of the individual fish. Preferably unique within the given Station and Species, but necessarily unique for the given combination of key fields above.}
 \item{lenCode: }{Length code (type: integer).
-Class: 1mm="mm", 0.5cm="scm"; 1cm="cm"; 2.5cm="25mm", 5cm="5cm".}
+Class: 1mm='mm', 0.5cm='scm'; 1cm='cm'; 2.5cm='25mm', 5cm='5cm'.}
 \item{measType: }{Measurement Type (type: NA).
 The measurement type field might need to be in this table. This is, as with the HL table, the parameter recorded e.g. fork length, max length, shell height; see the rationale for measType in the sl table.}
 \item{measCls: }{Measurement Class (type: NA).
@@ -409,11 +410,11 @@ The sampling probability of the fish/shellfish sampled for age weight maturity.}
 \item{ageMeth: }{Aging method (type: string).
 Methodology for estimating the age.}
 \item{plusGrp: }{Age-plus-group (type: string).
-+?=?Plus group, ??=?Not plus group.6}
++=Plus group, =Not plus group.}
 \item{otoWt: }{Otolith weight (type: dec(5)).
 In grammes.}
 \item{otoSide: }{Otolith side (type: string).
-The side of the fish where the otolith was taken. R?=?right, L?=?left.}
+The side of the fish where the otolith was taken. R=right, L=left.}
 \item{indWt: }{Weight (type: dec(1)).
 In grammes.}
 \item{matMeth: }{Maturity staging method (type: string).

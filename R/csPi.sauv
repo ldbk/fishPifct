@@ -12,7 +12,7 @@
 #' \item{dataProv: }{Data provider (type: string).
 #' A means of recording who provided the data to the RDB, this may be different from the institute or body that actually did the sampling}
 #' \item{sampCtry: }{Sampling country (type: string).
-#' ISO 3166 1 alpha-3 codes. The country that did the sampling}
+#' ISO 3166 1 alpha-3 codes. The country that did the sampling}
 #' \item{sampInst: }{Sampling institution (type: NA).
 #' The sampling institution, i.e. those who actually did the sampling. This might not be the organization who ultimately provide the data to the RDB.}
 #' \item{sampMeth: }{Sampling method (type: string).
@@ -22,7 +22,7 @@
 #' \item{seYear: }{Sampling year (type: integer).
 #' Sampling event year}
 #' \item{sampDate: }{Sampling date (type: string).
-#' 'YYYY-MM-DD' (ISO 8601). The date on which the sampling occurred (see general issues below).}
+#' 'YYYY-MM-DD' (ISO 8601).  The date on which the sampling occurred (see general issues below).}
 #' \item{sampTime: }{Sampling time (type: string).
 #' 'HH:MM'. The time on which the sampling occurred (see general issues below).}
 #' \item{sampLoc: }{Sampling location (type: string).
@@ -48,7 +48,7 @@
 #' \item{psuId: }{Primary Sampling Unit Identifier   (type: NA).
 #' This is the concatenation of the actual values from the fields specified by the psuKey. These are unique to the sample, and ideally map to the elements in the population dataset (cpRDB) that can be similarly classified. The psuId would be a replicated field in all the tables in the csRDB structure.}
 #' \item{psuTotal: }{Primary Sampling Unit Total   (type: NA).
-#' This is the total number of possible sampling elements in the population e.g. market days over the year, vessels in the sampling frame. This would generally be obtained from the population data that is explicitly liked to the csRDB sample data. The popData slot was envisaged to allow this dataset to be specifically identified.}
+#' This is the total number of possible sampling elements in the population e.g. market days over the year, vessels in the sampling frame. This would generally be obtained from the population data that is explicitly liked to the csRDB sample data. The @@$popData slot was envisaged to allow this dataset to be specifically identified.}
 #' \item{psuSampled: }{Primary Sampling Unit Sampled   (type: NA).
 #' This is the total number of samples obtained from within the sampling stratum and will correspond to the number of unique psuId values.}
 #' \item{psuSampProb: }{Primary Sampling Unit Probability (type: NA).
@@ -56,8 +56,7 @@
 #'}
 #'
 #' @slot Slot TR:
-#'
-#' \describe{
+#'\describe{
 #' \item{recType: }{Record type (type: string).
 #' Fixed value TR.}
 #' \item{seCode: }{Sample event code (type: sting).
@@ -69,7 +68,7 @@
 #' \item{trpCode: }{Trip code (type: string).
 #' National coding system.}
 #' \item{sampType: }{Sampling type (type: string).
-#' 'S'=sea sampling,'M'=market sampling of known fishing trips, 'D'=market sampling of mixed trips, 'V'=vendor.}
+#' 'S' = sea sampling, 'M' = market sampling of known fishing trips, 'D' = market sampling of mixed trips, 'V' = vendor.}
 #' \item{vslFlgCtry: }{Vessel flag country (type: string).
 #' ISO 3166-1 alpha-3 codes: the flag country of the vessel. This can be different from the landing country (see description of Landing country).}
 #' \item{vslId: }{Vessel identifier (encrypted) (type: integer).
