@@ -413,6 +413,15 @@ These fonctions are generic and can be applied to the whole set of variables of 
 ##Plots
 
 ###Maps
+The function `csMap` gives the ability to the user to map easily a variable over the ICES 
+statistical rectangle.
+```{r}
+ csMap(sole,"hh","foDur","tile","sum")
+ csMap(sole,"hh","foCatEu5","bubble")
+ csMap(sole,"hl","lenNum","tile","sum")
+ csMap(sole,"tr","daysAtSea","bubble","sum")
+ csMap(sole,"tr","vslId","bubble","n_distinct")
+```
 
 ###Generic functions
 The function `lengthHist` plots histograms of the length frequency data from the hl table of csPi object. 

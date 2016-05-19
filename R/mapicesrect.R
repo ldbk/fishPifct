@@ -1,9 +1,10 @@
-#' This function prepare a csPi object for mapping
-#' 
+#' This function map a variable from a slot from a csPi object 
 #'
-#' @param data: a data frame 
-#' @param var: the variable position (a numerical vector) or name (a character vector) in data. This variable should be numeric.
-#' @param rect: the ICES statistical rectangle position (a numerical vector) or name (a character vector) in data
+#' @param obj: a csPi object
+#' @param slot: the slot name
+#' @param var: the variable name 
+#' @param type: the map type - tile or bubble. For categorical variable, only bubble is available.
+#' @param fct: agregation function -sum, mean or n_distinct- to summarise the spatial information
 #' 
 #' @export
 #' @return a ggplot plot
@@ -11,29 +12,31 @@
 #' @author Laurent Dubroca
 #' @examples
 #'	\dontrun{
-#'	load("ICESAreaRects.rdata")
-#'	datatmp<-data.frame(StatRect=sample(gsub(" ","",ICESAreaRects$StatRect),1000,replace=T),landWt=rnorm(1000,mean=1000,sd=300),month=sample(1:12,1000,replace=T))
-#'	pipo<-mapicesrect(datatmp[1:10,],2,1)
-#'	listid<-unique(ices_areas_df$id)
-#'	ggplot(ices_areas_df[ices_areas_df$id%in%listid[13:65],])+
-#'		geom_path(aes(long,lat,group=group,coutour="grey"))
-#'
-#'		geom_polygon(aes(long,lat,group=group,fill=id,coutour="grey"))#+guides(fill=guide_legend(ncol=3))
-#'
-#'	ggplot(ices_areas_df[ices_areas_df$id%in%listid[1:12],],aes(x=long,y=lat,group=id))+
-#'	geom_path()
-#'
+#'	library(fishPifct)
+#'	data(sole)
+#'	sole<- csDataTocsPi(sole.cs)
+#'	csMap(sole,"hh","foDur","tile","sum")
 #'   	} 
 #'
 #'   
-prepmap<-function(obj,var){
-	library(fishPifct)
-	data(sole)
-	obj<- csDataTocsPi(sole.cs)
-	slot<-"hh"
-	var<-"foDur"
-	var<-"foCatEu5"
+csMap<-function(obj,slot,var,type="tile",fct="sum"){
+	#library(fishPifct)
+	#data(sole)
+	#obj<- csDataTocsPi(sole.cs)
+	#slot<-"tr"
+	#var<-"trpCode"
+	#fct<-"n_distinct"
 
+	if(type%in%c("tile","bubble")){
+	}else{
+		print("map type not recognized: using tile")
+		type<-"tile"
+	}
+	if(fct%in%c("sum","mean","n_distinct")){
+	}else{
+		print("summarizing function not recognized: using sum")
+		fct<-"sum"
+	}
 	if(slot%in%c("ca","se")){
 		print("ca and se slots are not available for mapping")
 	}else{
@@ -56,7 +59,11 @@ prepmap<-function(obj,var){
 			#agregated in space by sum for num and occurence for text 
 			selvar<-slot(obj,slot)[,which(names(slot(obj,slot))%in%var)]
 			if(is.numeric(selvar)){
-				eval(parse(text=paste0("tab<-tab%>%group_by(rect)%>%summarise(valeur=sum(",var,",na.rm=T))")))
+				if(fct!="n_distinct"){
+				  eval(parse(text=paste0("tab<-tab%>%group_by(rect)%>%summarise(valeur=",fct,"(",var,",na.rm=T))")))
+				}else{
+				  eval(parse(text=paste0("tab<-tab%>%group_by(rect)%>%summarise(valeur=",fct,"(",var,"))")))
+				}
 			}else{
 				eval(parse(text=paste0("tab<-tab%>%group_by(rect,",var,")%>%summarise(val=n())")))
 				names(tab)<-c("rect","cat","valeur")
@@ -77,38 +84,54 @@ prepmap<-function(obj,var){
 			#r<-rasterFromXYZ(data.frame(x=tab$lon,y=tab$lat,z=tab$val), res=c(NA,NA), crs=NA, digits=5)
 			#facteur<-2
 			#r<-aggregate(pipo,facteur)
-
 			coast_map <- fortify(map("worldHires", fill = TRUE, plot = FALSE,
 						 xlim=range(tab$lon,na.rm=T),ylim=range(tab$lat,na.rm=T)))
+			
+
 			#map
-			map1<-ggplot(tab,aes(x=lon,y=lat,fill=val))+
-				geom_map(data=coast_map, map=coast_map, aes(x=long, y=lat, map_id=region), 
-				 fill="grey", color="grey")+
-				xlim(range(tab$lon,na.rm=T))+ylim(range(tab$lat,na.rm=T))+
-				xlab("Longitude")+ylab("Latitude")+
-				#geom_raster(stat="identity")+ 
-				geom_tile(stat="identity")+ 
-				coord_cartesian()+
-				scale_fill_continuous(guide=guide_legend(title=var))+
-				ggtitle(var)
-				map1
-			 #bubble
-			map1<-ggplot(tab,aes(x=lon,y=lat,size=val))+
-				geom_map(data=coast_map, map=coast_map, aes(x=long, y=lat, map_id=region), 
-				 fill="grey", color="grey")+
-				xlim(range(tab$lon,na.rm=T))+ylim(range(tab$lat,na.rm=T))+
-				xlab("Longitude")+ylab("Latitude")+
-				#geom_raster(stat="identity")+ 
-				#geom_tile(stat="identity")+ 
-				geom_point()+
-				coord_cartesian()+
-				scale_fill_continuous(guide=guide_legend(title=var))+
-				ggtitle(var)
-				map1
+			if(is.numeric(selvar)){
+				if(type=="tile"){
+					map1<-ggplot(tab,aes(x=lon,y=lat,fill=valeur))+
+						xlim(range(tab$lon,na.rm=T))+ylim(range(tab$lat,na.rm=T))+
+						xlab("Longitude")+ylab("Latitude")+
+						geom_tile(stat="identity")+ 
+						geom_map(data=coast_map, map=coast_map, aes(x=long, y=lat, map_id=region), 
+						 fill="grey", color="grey",alpha=.75)+
+						coord_cartesian()+
+						scale_fill_continuous(guide=guide_legend(title=var))+
+						ggtitle(paste(fct,var,"in",slot))
+
+				}
+				if(type=="bubble"){
+					map1<-ggplot(tab,aes(x=lon,y=lat,size=valeur))+
+						xlim(range(tab$lon,na.rm=T))+ylim(range(tab$lat,na.rm=T))+
+						xlab("Longitude")+ylab("Latitude")+
+						geom_point() +
+						geom_map(data=coast_map, map=coast_map, aes(x=long, y=lat, map_id=region), 
+						 fill="grey", color="grey",inherit.aes=FALSE,alpha=.75)+
+						coord_cartesian()+
+						scale_fill_continuous(guide=guide_legend(title=var))+
+						ggtitle(paste(fct,var,"in",slot))
+
+				}
+			}else{
+				map1<-ggplot(tab,aes(x=lon,y=lat,size=valeur,color=cat))+
+					geom_tile(data=tab,aes(x=lon,y=lat),alpha=0.01,inherit.aes=FALSE)+
+					geom_map(data=coast_map, map=coast_map, aes(x=long, y=lat, map_id=region), 
+					 fill="grey", color="grey",inherit.aes=FALSE,alpha=.75)+
+					geom_jitter(width=1,height=0,alpha=.6)+
+					xlim(range(tab$lon,na.rm=T))+ylim(range(tab$lat,na.rm=T))+
+					xlab("Longitude")+ylab("Latitude")+
+					#geom_raster(stat="identity")+ 
+					#geom_tile(stat="identity")+ 
+					coord_cartesian()+
+					ggtitle(paste("number of",var,"in",slot))
+			}
 			
 		}
 
 	}
+	return(map1)
 }
 
 #' This function map a variable defined on ICES statistical rectangles

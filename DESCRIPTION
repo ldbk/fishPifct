@@ -1,6 +1,6 @@
 Package: fishPifct
 Title: fishPi functions
-Version: 0.1
+Version: 0.9
 Description: A set of function used in the fishPi project
 Depends:
     R (>= 3.3.0),dplyr,openxlsx,readxl,rmarkdown,robustbase,ggplot2,mapdata

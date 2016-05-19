@@ -2,7 +2,7 @@
 % Please edit documentation in R/mapicesrect.R
 \name{mapicesrect}
 \alias{mapicesrect}
-\title{This function map a variable defined on ICES statistical rectangle}
+\title{This function map a variable defined on ICES statistical rectangles}
 \usage{
 mapicesrect(data, var, rect)
 }
@@ -17,11 +17,10 @@ mapicesrect(data, var, rect)
 a ggplot plot
 }
 \description{
-This function map a variable defined on ICES statistical rectangle
+This function map a variable defined on ICES statistical rectangles
 }
 \examples{
 \dontrun{
-require(mapdata);require(dplyr);require(ggplot2)
 load("ICESAreaRects.rdata")
 datatmp<-data.frame(StatRect=sample(gsub(" ","",ICESAreaRects$StatRect),1000,replace=T),landWt=rnorm(1000,mean=1000,sd=300),month=sample(1:12,1000,replace=T))
 pipo<-mapicesrect(datatmp[1:10,],2,1)
@@ -37,6 +36,9 @@ geom_path()
   	} 
 
   
+}
+\author{
+Laurent Dubroca
 }
 \keyword{ICES}
 \keyword{rectangle}
