@@ -203,9 +203,11 @@ head(sole)
 The csPi object is named sole in our example.
 
 ##Handling csPi ojects
-A collection of methods gives to the user the ability to explore and visualize a csPi objects:
+A collection of methods and functions gives to the user the ability to explore and visualize a csPi objects:
 ```{r}
 methods(class="csPi")
+#subset csPi object
+#?csSubset
 ```
 Their behaviours are similar to the generic one (ie `dim` gives the dimension of all the `csPi` slots). 
 
@@ -406,6 +408,7 @@ The function output gives to the user the complete lines who includes the outlie
 #10 first lines and 5 first columns of the outliers
 pander(tabaoutlier[1:10,1:5],split.table=Inf)
 ```
+These fonctions are generic and can be applied to the whole set of variables of a `csPi` object.
 
 ##Plots
 

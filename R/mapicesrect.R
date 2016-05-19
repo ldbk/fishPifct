@@ -1,4 +1,4 @@
-#' This function map a variable defined on ICES statistical rectangle
+#' This function prepare a csPi object for mapping
 #' 
 #'
 #' @param data: a data frame 
@@ -8,9 +8,122 @@
 #' @export
 #' @return a ggplot plot
 #' @keywords ICES statistical rectangle 
+#' @author Laurent Dubroca
 #' @examples
 #'	\dontrun{
-#'	require(mapdata);require(dplyr);require(ggplot2)
+#'	load("ICESAreaRects.rdata")
+#'	datatmp<-data.frame(StatRect=sample(gsub(" ","",ICESAreaRects$StatRect),1000,replace=T),landWt=rnorm(1000,mean=1000,sd=300),month=sample(1:12,1000,replace=T))
+#'	pipo<-mapicesrect(datatmp[1:10,],2,1)
+#'	listid<-unique(ices_areas_df$id)
+#'	ggplot(ices_areas_df[ices_areas_df$id%in%listid[13:65],])+
+#'		geom_path(aes(long,lat,group=group,coutour="grey"))
+#'
+#'		geom_polygon(aes(long,lat,group=group,fill=id,coutour="grey"))#+guides(fill=guide_legend(ncol=3))
+#'
+#'	ggplot(ices_areas_df[ices_areas_df$id%in%listid[1:12],],aes(x=long,y=lat,group=id))+
+#'	geom_path()
+#'
+#'   	} 
+#'
+#'   
+prepmap<-function(obj,var){
+	library(fishPifct)
+	data(sole)
+	obj<- csDataTocsPi(sole.cs)
+	slot<-"hh"
+	var<-"foDur"
+	var<-"foCatEu5"
+
+	if(slot%in%c("ca","se")){
+		print("ca and se slots are not available for mapping")
+	}else{
+		tab<-NULL
+		if(slot=="hl"){
+			tab<-left_join(left_join(obj@hl,obj@sl,by=piPk("sl")),obj@hh,by=piPk("hh"))
+		}
+		if(slot=="sl"){
+			tab<-left_join(obj@sl,obj@hh,by=piPk("hh"))
+		}
+		if(slot=="hh"){
+			tab<-obj@hh
+		}
+		if(slot=="tr"){
+			tab<-left_join(obj@hh,obj@tr,by=piPk("tr"))
+		}
+		if(is.null(tab)){
+			print("wrong slot name")
+		}else{
+			#agregated in space by sum for num and occurence for text 
+			selvar<-slot(obj,slot)[,which(names(slot(obj,slot))%in%var)]
+			if(is.numeric(selvar)){
+				eval(parse(text=paste0("tab<-tab%>%group_by(rect)%>%summarise(valeur=sum(",var,",na.rm=T))")))
+			}else{
+				eval(parse(text=paste0("tab<-tab%>%group_by(rect,",var,")%>%summarise(val=n())")))
+				names(tab)<-c("rect","cat","valeur")
+			}
+			
+			#check if rectangle are ok
+			if(!all(tab$rect%in%ICESAreaRects$StatRect)){
+				print("Statistical rectangles missing and not mapped: ")
+				whichnotok<-!(tab$rect%in%ICESAreaRects$StatRect)
+				print(tab$rect[whichnotok])
+			}
+			#compute x and y from rect
+			ices<-distinct(ICESAreaRects[,3:9]);ices$StatRect<-as.character(gsub(" ","",ices$StatRect))
+			names(ices)[names(ices)=="StatRect"]<-"rect"
+			tab<-left_join(tab,ices)%>%ungroup()%>%data.frame()
+			#change spatial resolution ?
+			#require(raster)
+			#r<-rasterFromXYZ(data.frame(x=tab$lon,y=tab$lat,z=tab$val), res=c(NA,NA), crs=NA, digits=5)
+			#facteur<-2
+			#r<-aggregate(pipo,facteur)
+
+			coast_map <- fortify(map("worldHires", fill = TRUE, plot = FALSE,
+						 xlim=range(tab$lon,na.rm=T),ylim=range(tab$lat,na.rm=T)))
+			#map
+			map1<-ggplot(tab,aes(x=lon,y=lat,fill=val))+
+				geom_map(data=coast_map, map=coast_map, aes(x=long, y=lat, map_id=region), 
+				 fill="grey", color="grey")+
+				xlim(range(tab$lon,na.rm=T))+ylim(range(tab$lat,na.rm=T))+
+				xlab("Longitude")+ylab("Latitude")+
+				#geom_raster(stat="identity")+ 
+				geom_tile(stat="identity")+ 
+				coord_cartesian()+
+				scale_fill_continuous(guide=guide_legend(title=var))+
+				ggtitle(var)
+				map1
+			 #bubble
+			map1<-ggplot(tab,aes(x=lon,y=lat,size=val))+
+				geom_map(data=coast_map, map=coast_map, aes(x=long, y=lat, map_id=region), 
+				 fill="grey", color="grey")+
+				xlim(range(tab$lon,na.rm=T))+ylim(range(tab$lat,na.rm=T))+
+				xlab("Longitude")+ylab("Latitude")+
+				#geom_raster(stat="identity")+ 
+				#geom_tile(stat="identity")+ 
+				geom_point()+
+				coord_cartesian()+
+				scale_fill_continuous(guide=guide_legend(title=var))+
+				ggtitle(var)
+				map1
+			
+		}
+
+	}
+}
+
+#' This function map a variable defined on ICES statistical rectangles
+#' 
+#'
+#' @param data: a data frame 
+#' @param var: the variable position (a numerical vector) or name (a character vector) in data. This variable should be numeric.
+#' @param rect: the ICES statistical rectangle position (a numerical vector) or name (a character vector) in data
+#' 
+#' @export
+#' @return a ggplot plot
+#' @keywords ICES statistical rectangle 
+#' @author Laurent Dubroca
+#' @examples
+#'	\dontrun{
 #'	load("ICESAreaRects.rdata")
 #'	datatmp<-data.frame(StatRect=sample(gsub(" ","",ICESAreaRects$StatRect),1000,replace=T),landWt=rnorm(1000,mean=1000,sd=300),month=sample(1:12,1000,replace=T))
 #'	pipo<-mapicesrect(datatmp[1:10,],2,1)
