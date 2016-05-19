@@ -3,7 +3,7 @@ Title: fishPi functions
 Version: 0.1
 Description: A set of function used in the fishPi project
 Depends:
-    R (>= 3.0.0),dplyr,openxlsx,readxl,rmarkdown
+    R (>= 3.3.0),dplyr,openxlsx,readxl,rmarkdown,robustbase,ggplot2
 License: MIT +
 LazyData: true
 Date: 2015-06-24

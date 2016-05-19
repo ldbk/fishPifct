@@ -76,6 +76,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <div id="framework" class="section level1">
 <h1>Framework</h1>
+<p>Fishery data have to be inspected in order to detect errors before to use them in the stock assessment procedure <span class="citation">(Chen 2003)</span>. Finding and correcting errors is one of the first tasks one needs to perform on a dataset in this case. Currently these checks are made at national level using mainly manual methods (based on graphs and numerical summary, see <span class="citation">J. Vigneau and Mahévas (2007)</span> for example). When the amount of data is large (as it will become with the implementation of the regional database) manual methods are (1) too time consuming and (2) are difficult to track in time (when and how the corrections were made). Hence automated procedures are needed and participate intrinsically to build the data quality.</p>
 <p>This document is a tutorial related to the use of the R <code>fishPifct</code> package to assess data quality on fishery sampling data. The <code>fishPifct</code> package was developped for the work package 4 of the fishPi project (project DG-MARE 2014/19 WP4). Its main objectives are to provide to the end users a framework to assess the quality of sampling data related to fishery.</p>
 <div id="data-format-specification" class="section level2">
 <h2>Data format specification</h2>
@@ -466,7 +467,7 @@ sole &lt;-<span class="st"> </span><span class="kw">csDataTocsPi</span>(sole.cs)
 <p>In this package the <code>import</code> and <code>export</code> functions do these transformation easily:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">export</span>(sole,<span class="dt">file=</span><span class="st">&quot;sole.xlsx&quot;</span>,<span class="dt">type=</span><span class="st">&quot;xlsx&quot;</span>)</code></pre></div>
 <pre><code>## [1] &quot;sole.xlsx&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#use a spreadsheet to open the sole.xlsx file and do some correction</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#use a spreadsheet to open the sole.xlsx file and do some corrections if needed</span>
 <span class="co">#save the file, and import it in R with:</span>
 solecorrected&lt;-<span class="kw">importxlsx</span>(<span class="dt">file=</span><span class="st">&quot;sole.xlsx&quot;</span>)</code></pre></div>
 </div>
@@ -761,7 +762,7 @@ structurecheck&lt;-<span class="kw">validateData</span>(<span class="dt">obj=</s
 </tr>
 <tr class="odd">
 <td align="center">validate_date</td>
-<td align="center">2016-05-19 01:03:04</td>
+<td align="center">2016-05-19 04:03:09</td>
 </tr>
 <tr class="even">
 <td align="center">dataset_container</td>
@@ -961,17 +962,285 @@ structurecheck&lt;-<span class="kw">validateData</span>(<span class="dt">obj=</s
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#generating a pdf report</span>
 <span class="kw">renderValidationReport</span>(<span class="dt">obj=</span>sole,<span class="dt">formatDb=</span>format_definition_csPi,
                <span class="dt">title=</span><span class="st">&quot;test&quot;</span>,<span class="dt">reportFormat=</span><span class="st">&quot;pdf&quot;</span>)</code></pre></div>
-<pre><code>## Report generated [/tmp/RtmpSa0Z38/dataValidationReport_20160519_010305_4fb922382128.pdf]</code></pre>
-<pre><code>## [1] &quot;/tmp/RtmpSa0Z38/dataValidationReport_20160519_010305_4fb922382128.pdf&quot;</code></pre>
+<pre><code>## Report generated [/tmp/RtmpMtiBe2/dataValidationReport_20160519_040310_68ab35d8f208.pdf]</code></pre>
+<pre><code>## [1] &quot;/tmp/RtmpMtiBe2/dataValidationReport_20160519_040310_68ab35d8f208.pdf&quot;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#a copy of this report can be found in</span>
 <span class="kw">system.file</span>(<span class="st">'data'</span>, 
 <span class="st">'dataValidationReport_20160518_235140_29d51c808f9b.pdf'</span>,
         <span class="dt">package=</span><span class="st">'fishPifct'</span>)</code></pre></div>
 <pre><code>## [1] &quot;/home/moi/ifremer/fishpi/fishPifct/data/dataValidationReport_20160518_235140_29d51c808f9b.pdf&quot;</code></pre>
 </div>
+<div id="consistency-check" class="section level3">
+<h3>Consistency check</h3>
+<p>In this section, the consistency of the information between the ‘csPi’ slots is checked, e.g. identification of trips without fishing operations. To do so, the function <code>consistency</code> performs hierachical anti jointure between related table and generates a simple table reporting the <code>trpCode</code> who have to be checked between the tables:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#consistency check generating a pdf report</span>
+consistencycheck&lt;-<span class="kw">consistency</span>(sole)
+<span class="kw">pander</span>(consistencycheck,<span class="dt">split.table=</span><span class="ot">Inf</span>)</code></pre></div>
+<table>
+<colgroup>
+<col width="9%"></col>
+<col width="36%"></col>
+<col width="26%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">test</th>
+<th align="center">message</th>
+<th align="center">check</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">tr-&gt;se</td>
+<td align="center">0 tr records have no correspondings se records</td>
+<td align="center">orphans tr trpCode:</td>
+</tr>
+<tr class="even">
+<td align="center">hh-&gt;tr</td>
+<td align="center">0 hh records have no correspondings tr records</td>
+<td align="center">orphans hh trpCode:</td>
+</tr>
+<tr class="odd">
+<td align="center">sl-&gt;hh</td>
+<td align="center">0 sl records have no correspondings hh records</td>
+<td align="center">orphans sl trpCode:</td>
+</tr>
+<tr class="even">
+<td align="center">hl-&gt;sl</td>
+<td align="center">0 hl records have no correspondings sl records</td>
+<td align="center">orphans hl trpCode:</td>
+</tr>
+</tbody>
+</table>
+<p>In our sole example, no consistency errors were detected.</p>
+</div>
 </div>
 <div id="outliers-detection" class="section level2">
 <h2>Outliers detection</h2>
+<p>The literature on outliers is extensive, and cover all the areas of science, but determining whether or not an observation is an outlier is ultimately a subjective exercise and hence makes automation a difficult task. Here we will use the definition of <span class="citation">Barnett and Lewis (1994)</span> for outlier: “Indicate that an outlying observation, or outlier, is one that appears to deviate markedly from other members of the sample in which it occurs”. Outlier detection methods can be divide between univariate methods (looking at only one variable) and multivariate methods (looking at more than one variable and their relationships). For example univariate methods spot observations reported in tons instead of kilos in landings, while multivariate methods can identify wrong weigths in a size-weight relationship. Then outlier detection methods can be categorized between parametric (statistical) methods and non-parametric methods that are model free. Statistical parametric methods either assume a known underlying distribution of the data or, at least, they are based on statistical estimates of unknown distribution parameters. Observations that deviate from the model assumptions are flagged as outliers. Here we focus on two generic non parametric methods for numerical and non numerical univariate data. The function <code>outliers</code> do the outliers detection for a <code>csPi</code> object.</p>
+<div id="numeric-variables" class="section level3">
+<h3>Numeric variables</h3>
+<p>The adjusted outlyingness index is used to detect outliers. The function <code>adjOutliness</code> of the package <code>robustBase</code> is used. More details of this method can be found in the help page of this function. An example on the fishing duration (variable <code>foDur</code> of slot <code>hh</code>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tabaoutlier&lt;-<span class="kw">outliers</span>(sole,<span class="dt">slot=</span><span class="st">&quot;hh&quot;</span>,<span class="dt">var=</span><span class="st">&quot;foDur&quot;</span>)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 48 rows containing non-finite values (stat_bin).</code></pre>
+<p><img src="data:image/png;base64,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" alt /><!-- --> High fishing duration values are flagged as outliers, as presented in the figure. The function output gives to the user the complete lines who includes the outliers:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#10 first lines and 5 first columns of the outliers</span>
+<span class="kw">pander</span>(tabaoutlier[<span class="dv">1</span>:<span class="dv">10</span>,<span class="dv">1</span>:<span class="dv">5</span>],<span class="dt">split.table=</span><span class="ot">Inf</span>)</code></pre></div>
+<table>
+<colgroup>
+<col width="13%"></col>
+<col width="13%"></col>
+<col width="12%"></col>
+<col width="9%"></col>
+<col width="9%"></col>
+<col width="12%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">recType</th>
+<th align="center">seCode</th>
+<th align="center">year</th>
+<th align="center">proj</th>
+<th align="center">trpCode</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>63</strong></td>
+<td align="center">hh</td>
+<td align="center">ELR214</td>
+<td align="center">2006</td>
+<td align="center">Obsmer</td>
+<td align="center">ELR214</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>274</strong></td>
+<td align="center">hh</td>
+<td align="center">MAC3</td>
+<td align="center">2006</td>
+<td align="center">Obsmer</td>
+<td align="center">MAC3</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>275</strong></td>
+<td align="center">hh</td>
+<td align="center">MAC3</td>
+<td align="center">2006</td>
+<td align="center">Obsmer</td>
+<td align="center">MAC3</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>276</strong></td>
+<td align="center">hh</td>
+<td align="center">MAC3</td>
+<td align="center">2006</td>
+<td align="center">Obsmer</td>
+<td align="center">MAC3</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>277</strong></td>
+<td align="center">hh</td>
+<td align="center">MAC3</td>
+<td align="center">2006</td>
+<td align="center">Obsmer</td>
+<td align="center">MAC3</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>278</strong></td>
+<td align="center">hh</td>
+<td align="center">MAC3</td>
+<td align="center">2006</td>
+<td align="center">Obsmer</td>
+<td align="center">MAC3</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>279</strong></td>
+<td align="center">hh</td>
+<td align="center">MAC3</td>
+<td align="center">2006</td>
+<td align="center">Obsmer</td>
+<td align="center">MAC3</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>280</strong></td>
+<td align="center">hh</td>
+<td align="center">MAC3</td>
+<td align="center">2006</td>
+<td align="center">Obsmer</td>
+<td align="center">MAC3</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>281</strong></td>
+<td align="center">hh</td>
+<td align="center">MAC3</td>
+<td align="center">2006</td>
+<td align="center">Obsmer</td>
+<td align="center">MAC3</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>282</strong></td>
+<td align="center">hh</td>
+<td align="center">MAC3</td>
+<td align="center">2006</td>
+<td align="center">Obsmer</td>
+<td align="center">MAC3</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="text-and-codelist-variables" class="section level3">
+<h3>Text and codelist variables</h3>
+<p>For a non-numerical variable, the outliers are detected using the occurence of the modality of the value, expressed in percentage and a treshold (by default 1%). If a modality is expressed less than this treshold, an outlier is considered detected. The treshold can be fixed by the user. Here an example using the statistical rectangle fished :</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tabaoutlier&lt;-<span class="kw">outliers</span>(sole,<span class="dt">slot=</span><span class="st">&quot;hh&quot;</span>,<span class="dt">var=</span><span class="st">&quot;rect&quot;</span>)</code></pre></div>
+<pre><code>## Warning: Removed 1 rows containing missing values (position_stack).</code></pre>
+<p><img src="data:image/png;base64,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" alt /><!-- --> High fishing duration values are flagged as outliers, as presented in the figure. The function output gives to the user the complete lines who includes the outliers:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#10 first lines and 5 first columns of the outliers</span>
+<span class="kw">pander</span>(tabaoutlier[<span class="dv">1</span>:<span class="dv">10</span>,<span class="dv">1</span>:<span class="dv">5</span>],<span class="dt">split.table=</span><span class="ot">Inf</span>)</code></pre></div>
+<table>
+<colgroup>
+<col width="13%"></col>
+<col width="13%"></col>
+<col width="12%"></col>
+<col width="9%"></col>
+<col width="9%"></col>
+<col width="12%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">recType</th>
+<th align="center">seCode</th>
+<th align="center">year</th>
+<th align="center">proj</th>
+<th align="center">trpCode</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>65</strong></td>
+<td align="center">hh</td>
+<td align="center">ELR214</td>
+<td align="center">2006</td>
+<td align="center">Obsmer</td>
+<td align="center">ELR214</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>68</strong></td>
+<td align="center">hh</td>
+<td align="center">ELR214</td>
+<td align="center">2006</td>
+<td align="center">Obsmer</td>
+<td align="center">ELR214</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>77</strong></td>
+<td align="center">hh</td>
+<td align="center">ELR214</td>
+<td align="center">2006</td>
+<td align="center">Obsmer</td>
+<td align="center">ELR214</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>78</strong></td>
+<td align="center">hh</td>
+<td align="center">ELR214</td>
+<td align="center">2006</td>
+<td align="center">Obsmer</td>
+<td align="center">ELR214</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>79</strong></td>
+<td align="center">hh</td>
+<td align="center">ELR214</td>
+<td align="center">2006</td>
+<td align="center">Obsmer</td>
+<td align="center">ELR214</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>81</strong></td>
+<td align="center">hh</td>
+<td align="center">ELR214</td>
+<td align="center">2006</td>
+<td align="center">Obsmer</td>
+<td align="center">ELR214</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>82</strong></td>
+<td align="center">hh</td>
+<td align="center">ELR214</td>
+<td align="center">2006</td>
+<td align="center">Obsmer</td>
+<td align="center">ELR214</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>83</strong></td>
+<td align="center">hh</td>
+<td align="center">ELR214</td>
+<td align="center">2006</td>
+<td align="center">Obsmer</td>
+<td align="center">ELR214</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>90</strong></td>
+<td align="center">hh</td>
+<td align="center">ELR214</td>
+<td align="center">2006</td>
+<td align="center">Obsmer</td>
+<td align="center">ELR214</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>110</strong></td>
+<td align="center">hh</td>
+<td align="center">ELR214</td>
+<td align="center">2006</td>
+<td align="center">Obsmer</td>
+<td align="center">ELR214</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 <div id="plots" class="section level2">
 <h2>Plots</h2>
@@ -998,8 +1267,14 @@ structurecheck&lt;-<span class="kw">validateData</span>(<span class="dt">obj=</s
 <div id="references" class="section level1 unnumbered">
 <h1>References</h1>
 <div id="refs" class="references">
+<div id="ref-barnett1994">
+<p>Barnett, V, and T Lewis. 1994. <em>Outliers in Statistical Data. 3rd Ed.</em> Wiley.</p>
+</div>
 <div id="ref-baumer2014">
 <p>Baumer, Ben, Mine Cetinkaya-Rundel, Andrew Bray, Linda Loi, and Nicholas J. Horton. 2014. “R Markdown: Integrating a Reproducible Analysis Tool into Introductory Statistics.” <em>Technology Innovations in Statistics Education</em> 8 (1).</p>
+</div>
+<div id="ref-chen2003">
+<p>Chen, Y. 2003. “Quality of Fisheries Data and Uncertainty in Stock Assessment.” <em>Scientia Marina</em> 67 (1): 75–87.</p>
 </div>
 <div id="ref-cost2009">
 <p>COST. 2006. “Studies and Pilot Projects for Carrying Out the Common Fisheries Policy Call for Proposal Ref : FISH/2006/15 – Lot 2 Project No :SI2.467814 Project Acronym :COST.” EUROPEAN COMMISSION.</p>
@@ -1015,6 +1290,9 @@ structurecheck&lt;-<span class="kw">validateData</span>(<span class="dt">obj=</s
 </div>
 <div id="ref-r2016">
 <p>R Core Team. 2016. <em>R: A Language and Environment for Statistical Computing</em>. Vienna, Austria: R Foundation for Statistical Computing. <a href="https://www.R-project.org/" class="uri">https://www.R-project.org/</a>.</p>
+</div>
+<div id="ref-vigneau2007">
+<p>Vigneau, Joël, and Stéphanie Mahévas. 2007. “Detecting Sampling Outliers and Sampling Heterogeneity When Catch-at-Length Is Estimated Using the Ratio Estimator.” <em>ICES Journal of Marine Science: Journal Du Conseil</em> 64 (5): 1028–32. doi:<a href="http://doi.org/10.1093/icesjms/fsm077">10.1093/icesjms/fsm077</a>.</p>
 </div>
 </div>
 </div>

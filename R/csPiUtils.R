@@ -454,6 +454,108 @@ importcsv<-function(filelist){
 	}
 	return(pipo)
 }
+#====================================================================
+# 'consistency' function
+#====================================================================
+#' Check the consistency between the slots of a csPi object
+#'
+#' @param obj: a csPi object
+#'
+#' @return a table 
+#'
+#' @author Laurent Dubroca
+#'
+#' @export
+consistency<-function(obj){
+	#library(fishPifct)
+	#data(sole)
+	#obj<- csDataTocsPi(sole.cs)
+	if(class(obj)!="csPi"){
+		print("This is not a csPi object. Consistency check aborted")
+	}else{
+		trse<-anti_join(obj@tr,obj@se,by=piPk("se"))
+		rez<-data.frame(test="tr->se",message=paste0(nrow(trse)," tr records have no correspondings se records"),check=paste0("orphans tr trpCode:",paste(trse$trpCode,collapse=",")))
+		hhtr<-anti_join(obj@hh,obj@tr,by=piPk("tr"))
+		reztmp<-data.frame(test="hh->tr",message=paste0(nrow(hhtr)," hh records have no correspondings tr records"),check=paste0("orphans hh trpCode:",paste(hhtr$trpCode,collapse=",")))
+		rez<-rbind(rez,reztmp)
+		slhh<-anti_join(obj@sl,obj@hh,by=piPk("hh"))
+		reztmp<-data.frame(test="sl->hh",message=paste0(nrow(slhh)," sl records have no correspondings hh records"),check=paste0("orphans sl trpCode:",paste(slhh$trpCode,collapse=",")))
+		rez<-rbind(rez,reztmp)
+		hlsl<-anti_join(obj@hl,obj@sl,by=piPk("sl"))
+		reztmp<-data.frame(test="hl->sl",message=paste0(nrow(hlsl)," hl records have no correspondings sl records"),check=paste0("orphans hl trpCode:",paste(hlsl$trpCode,collapse=",")))
+		rez<-rbind(rez,reztmp)
+		return(rez)
+	}
+}
+#====================================================================
+# 'outliers' function
+#====================================================================
+#' Outliers detection on a variable using
+#' the adjusted outlyingness index (based on the robustbase package) if
+#' the variable is numeric, and on a frequency table if not. 
+#' In the later case, a treshold in percentage
+#' is used to flag an outlier (1% by default: if a value is present less than the
+#' treshold, then it is reported as outlier).
+#'
+#' @param obj: a csPi object
+#' @param slot: the slot where the variable of interest is located
+#' @param var: the name of a variable on which outiers detection is applied
+#' @param treshold: the percentage treshold to consider outliers in the case of non numeric data
+#' @param other parameters related to the function adjOutlyingness from
+#' 		the package robustbase
+#'
+#' @return plot a graphics and return a table of the table individuals flagged as outliers
+#'
+#' @author Laurent Dubroca
+#'
+#' @examples
+#'\dontrun{
+#'  data(sole)
+#'  sole<-csDataTocsPi(sole.cs)
+#'  outliers(sole,"foDur")
+#' }
+#'
+#' @export
+outliers<-function(obj,slot,var,treshold=1,...){
+	#library(fishPifct)
+	#data(sole)
+	#obj<- csDataTocsPi(sole.cs)
+	#var<-"foDur"
+	#var<-"rect"
+	#treshold<-1
+	if(class(obj)!="csPi"){
+		print("This is not a csPi object. Consistency check aborted")
+	}else{
+	   #for(whichslot in slotNames(obj)){
+	   #	   if(any(names(slot(obj,whichslot))%in%var)){slotid<-whichslot}
+	   #}
+	   slotid<-slot
+	   dat<-slot(obj,slotid)[,which(names(slot(obj,slotid))==var)]
+	   if(is.numeric(dat)){
+		   rez<-data.frame(id=1:length(dat),val=dat,outlier=NA)
+		   datnona<-rez[!is.na(rez$val),]
+		   out<-adjOutlyingness(datnona$val,...) 
+		   rez$outlier[datnona$id]<-!out$nonOut
+		   p1<-ggplot(rez,aes(x=val,fill=outlier))+geom_histogram(position="dodge")+xlab(paste(var,"in",slotid))
+		   print(p1)
+		   tab<-slot(obj,slotid)[rez$outlier & !is.na(rez$outlier),]
+		   return(tab)
+	   }else{
+		   #print(paste(var,"in",slotid,"is not numeric."))
+		   rez<-data.frame(id=1:length(dat),val=dat,outlier=FALSE)
+		   rez<-rez%>%group_by(val)%>%mutate(n=n())%>%ungroup()%>%mutate(n=100*n/nrow(rez))
+		   rez$outlier[rez$n<=treshold]<-TRUE
+		   rez$outlier[is.na(rez$val)]<-NA
+		   rezplot<-rez%>%group_by(val)%>%summarise(n=n(),outlier=unique(outlier))%>%ungroup()
+		   p1<-ggplot(rezplot,aes(x=val,y=n,fill=outlier))+
+		   	geom_bar(stat="identity")+
+			xlab(paste(var,"in",slotid))
+		   print(p1)
+		   tab<-slot(obj,slotid)[rez$outlier & !is.na(rez$outlier),]
+		   return(tab)
+	   }
+   	}
+}
 #a test
 #options(defaul.stringsAsFactors=FALSE)
 
@@ -499,3 +601,4 @@ testcsPi<-all(namessheet%in%c("info","se","tr","hh","sl","hl","ca"))
 	}
 	return(filename)
 }
+

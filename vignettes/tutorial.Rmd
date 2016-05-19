@@ -12,6 +12,15 @@ vignette: >
 
 #Framework
 
+Fishery data have to be inspected 
+in order to detect errors before to use them in the stock assessment procedure [@chen2003].
+Finding and correcting errors is one of the first tasks one needs to perform on a dataset in this case.
+Currently these checks are made at national level using mainly manual methods 
+(based on graphs and numerical summary, see @vigneau2007 for example).
+When  the  amount  of  data  is  large (as it will become with the implementation of the regional database)
+manual methods are (1) too time consuming and (2) are difficult to track in time (when and how the corrections
+were made).  Hence automated procedures are needed and participate intrinsically to build the data quality. 
+
 This document is a tutorial related to the use of the R `fishPifct` package to assess data quality on fishery
 sampling data.
 The `fishPifct` package was developped for the work package 4 of the fishPi project (project DG-MARE 2014/19 WP4). 
@@ -333,26 +342,85 @@ system.file('data',
 ###Consistency check
 
 In this section, the consistency of the information between the 'csPi' slots is checked, e.g. identification of trips without fishing operations.
-To do so, the function `xxx`:
+To do so, the function `consistency` performs hierachical anti jointure between related table and generates
+a simple table reporting the `trpCode` who have to be checked between the tables:
 
+```{r}
+#consistency check generating a pdf report
+consistencycheck<-consistency(sole)
+pander(consistencycheck,split.table=Inf)
+```
+In our sole example, no consistency errors were detected.
 
 ##Outliers detection
 
-###Codelist type
+The  literature  on  outliers  is  extensive, and cover all the areas of science, 
+but determining whether or not
+an observation is an outlier is ultimately a subjective exercise and hence makes automation a difficult task.
+Here we will use the definition of @barnett1994 for outlier:
+"Indicate that an outlying observation, or outlier, is one that
+appears to deviate markedly from other members of the sample in which it occurs".
+Outlier detection methods can be divide between univariate methods (looking at only one
+variable) and multivariate methods (looking at more than one variable and their
+relationships). For example univariate methods spot 
+observations reported in tons instead of kilos in landings, while multivariate methods can identify
+wrong weigths in a size-weight relationship.
+Then outlier detection methods can be categorized between
+parametric (statistical)
+methods and non-parametric methods that are model free.
+Statistical parametric methods either assume a known underlying distribution of the data or, at
+least, they are based on statistical estimates of unknown distribution parameters. Observations
+that deviate from the model assumptions are flagged as outliers. 
+Here we focus on two generic non parametric methods for numerical and non numerical univariate data.
+The function `outliers` do the outliers detection for a `csPi` object.
 
-###Numeric type
+###Numeric variables
+The adjusted outlyingness index is used to detect outliers. It's a non parametric methods, adapted to
+skewed data.
+The function `adjOutliness` of
+the package `robustBase` is used. More details of this method can be found in the help page of
+this function.
+An example on the fishing duration (variable `foDur` of slot `hh`):
+```{r}
+tabaoutlier<-outliers(sole,slot="hh",var="foDur")
+```
+High fishing duration values are flagged as outliers, as presented in the figure.
+The function output gives to the user the complete lines who includes the outliers:
+```{r}
+#10 first lines and 5 first columns of the outliers
+pander(tabaoutlier[1:10,1:5],split.table=Inf)
+```
+
+###Text and codelist variables 
+For a non-numerical variable, the outliers are detected using the occurence of the modality of the value,
+expressed in percentage and a treshold (by default 1%). If a modality is expressed less than this treshold,
+an outlier is considered detected. The treshold can be fixed by the user.
+Here an example using the statistical rectangle fished :
+
+```{r}
+tabaoutlier<-outliers(sole,slot="hh",var="rect")
+```
+Rare fished rectangle are flagged as outliers.
+The function output gives to the user the complete lines who includes the outliers:
+```{r}
+#10 first lines and 5 first columns of the outliers
+pander(tabaoutlier[1:10,1:5],split.table=Inf)
+```
 
 ##Plots
 
 ###Maps
 
-###Biological parameters
+###Generic functions
+The function `lengthHist` plots histograms of the length frequency data from the hl table of csPi object. 
+
 ```{r}
- library(fishPifct)
  lengthHist(sole)
+```
+The function `agelenPlot` plots age given length from the ca table of a `csPi`object.
+```{r}
  agelenPlot(sole)
 ```
-
 
 # About this vignette
 
