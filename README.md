@@ -37,15 +37,15 @@ In a R console:
 
 If needed, COST related package (for windows) can be found here :
 
-https://dl.dropboxusercontent.com/u/6181692/COSTcore_1.4-0.zip
+https://www.dropbox.com/s/3dl8jqurhjo1opg/COSTcore_1.4-0.tar.gz?dl=0
 
-https://dl.dropboxusercontent.com/u/6181692/COSTdbe_1.4-1.zip
+https://www.dropbox.com/s/ypwcj89hl1pr23e/COSTdbe_1.4-1.zip?dl=0
 
-https://dl.dropboxusercontent.com/u/6181692/COSTeda_1.4.0.zip
+https://www.dropbox.com/s/1kcmjvfz2p7kuwk/COSTeda_1.4.0.zip?dl=0
 
 A document :
 
-https://dl.dropboxusercontent.com/u/6181692/COST%20User%20Manual%20V1_1.pdf
+https://www.dropbox.com/s/vzcjymb1e7r827x/COST%20User%20Manual%20V1_1.pdf?dl=0
 
 
 #Description
